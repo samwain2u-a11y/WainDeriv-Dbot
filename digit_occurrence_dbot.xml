@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbot>
+  <metadata>
+    <name>Digit Occurrence Trading Bot</name>
+    <version>1.0.0</version>
+    <description>Deriv DBot that operates under 4-tick candles with digit frequency constraints and consecutive hit entry conditions</description>
+    <author>Trading Bot Generator</author>
+    <created>2026-06-23</created>
+    <interval>4t</interval>
+    <strategy_type>Digit-Based Entry</strategy_type>
+  </metadata>
+
+  <strategy>
+    <description>
+      Trading strategy based on digit occurrence frequency and consecutive hit patterns.
+      
+      Frequency Constraints:
+      - Digits 0-4 must remain under 10%
+      - Digits 6-9 must be above 10.5%
+      
+      Entry Conditions:
+      - Trigger entry after four consecutive hits on digits 6-9
+      - Followed by two consecutive hits on digits 0-3
+    </description>
+  </strategy>
+
+  <state_management>
+    <digit_tracking>
+      <digit value="0">
+        <occurrence>0</occurrence>
+        <group>LOW</group>
+        <group_range>0-4</group_range>
+      </digit>
+      <digit value="1">
+        <occurrence>0</occurrence>
+        <group>LOW</group>
+        <group_range>0-4</group_range>
+      </digit>
+      <digit value="2">
+        <occurrence>0</occurrence>
+        <group>LOW</group>
+        <group_range>0-4</group_range>
+      </digit>
+      <digit value="3">
+        <occurrence>0</occurrence>
+        <group>LOW</group>
+        <group_range>0-4</group_range>
+      </digit>
+      <digit value="4">
+        <occurrence>0</occurrence>
+        <group>LOW</group>
+        <group_range>0-4</group_range>
+      </digit>
+      <digit value="5">
+        <occurrence>0</occurrence>
+        <group>NEUTRAL</group>
+        <group_range>5</group_range>
+      </digit>
+      <digit value="6">
+        <occurrence>0</occurrence>
+        <group>HIGH</group>
+        <group_range>6-9</group_range>
+      </digit>
+      <digit value="7">
+        <occurrence>0</occurrence>
+        <group>HIGH</group>
+        <group_range>6-9</group_range>
+      </digit>
+      <digit value="8">
+        <occurrence>0</occurrence>
+        <group>HIGH</group>
+        <group_range>6-9</group_range>
+      </digit>
+      <digit value="9">
+        <occurrence>0</occurrence>
+        <group>HIGH</group>
+        <group_range>6-9</group_range>
+      </digit>
+      <total_digits>0</total_digits>
+    </digit_tracking>
+
+    <frequency_percentages>
+      <low_digit_percentage>0.0</low_digit_percentage>
+      <low_digit_constraint>less_than_10</low_digit_constraint>
+      <high_digit_percentage>0.0</high_digit_percentage>
+      <high_digit_constraint>greater_than_10.5</high_digit_constraint>
+    </frequency_percentages>
+
+    <consecutive_tracking>
+      <consecutive_high_digits>0</consecutive_high_digits>
+      <consecutive_low_digits>0</consecutive_low_digits>
+      <last_high_digit_hit>false</last_high_digit_hit>
+      <last_low_digit_hit>false</last_low_digit_hit>
+    </consecutive_tracking>
+
+    <entry_conditions>
+      <condition_met_count>0</condition_met_count>
+      <phase>WAITING</phase>
+      <phase_description>
+        WAITING: Monitoring frequency constraints
+        HIGH_DIGITS: Frequency met, awaiting 4 consecutive high digits
+        LOW_DIGITS: 4 consecutive high digits achieved, awaiting 2 consecutive low digits
+        READY: Entry condition met, execute trade
+      </phase_description>
+    </entry_conditions>
+
+    <trade_tracking>
+      <trade_active>false</trade_active>
+      <entry_price>0</entry_price>
+      <entry_time>0</entry_time>
+      <ticks_processed>0</ticks_processed>
+    </trade_tracking>
+  </state_management>
+
+  <logic>
+    <step number="1" name="Extract Digit">
+      <description>Extract the last digit from the close price</description>
+      <formula>digit = floor(close_price) mod 10</formula>
+      <output>digit (0-9)</output>
+    </step>
+
+    <step number="2" name="Classify Digit">
+      <description>Classify digit into groups</description>
+      <classification>
+        <group name="LOW" range="0-4" />
+        <group name="NEUTRAL" range="5" />
+        <group name="HIGH" range="6-9" />
+      </classification>
+      <output>digit_class (LOW|NEUTRAL|HIGH)</output>
+    </step>
+
+    <step number="3" name="Update Occurrences">
+      <description>Track digit occurrence and calculate frequencies</description>
+      <action>
+        <update>digitOccurrences[digit]++</update>
+        <update>totalDigits++</update>
+      </action>
+    </step>
+
+    <step number="4" name="Calculate Percentages">
+      <description>Calculate frequency percentages for digit groups</description>
+      <formula>
+        <low_percentage>(sum_0_to_4 / totalDigits) * 100</low_percentage>
+        <high_percentage>(sum_6_to_9 / totalDigits) * 100</high_percentage>
+      </formula>
+      <output>lowDigitPercentage, highDigitPercentage</output>
+    </step>
+
+    <step number="5" name="Check Frequency Constraints">
+      <description>Verify if frequency constraints are satisfied</description>
+      <condition>
+        <check>lowDigitPercentage &lt; 10</check>
+        <AND />
+        <check>highDigitPercentage &gt; 10.5</check>
+      </condition>
+      <output>constraintsMet (true|false)</output>
+    </step>
+
+    <step number="6" name="Track Consecutive High Digits">
+      <description>Monitor consecutive occurrences of digits 6-9</description>
+      <logic>
+        <if condition="digit_class == HIGH">
+          <if condition="lastHighDigitHit == true">
+            <action>consecutiveHighDigits++</action>
+          </if>
+          <else>
+            <action>consecutiveHighDigits = 1</action>
+          </else>
+          <action>lastHighDigitHit = true</action>
+          <action>consecutiveLowDigits = 0</action>
+          <action>lastLowDigitHit = false</action>
+        </if>
+      </logic>
+    </step>
+
+    <step number="7" name="Track Consecutive Low Digits">
+      <description>Monitor consecutive occurrences of digits 0-3</description>
+      <logic>
+        <if condition="digit_class == LOW">
+          <if condition="lastLowDigitHit == true">
+            <action>consecutiveLowDigits++</action>
+          </if>
+          <else>
+            <action>consecutiveLowDigits = 1</action>
+          </else>
+          <action>lastLowDigitHit = true</action>
+          <action>consecutiveHighDigits = 0</action>
+          <action>lastHighDigitHit = false</action>
+        </if>
+      </logic>
+    </step>
+
+    <step number="8" name="Reset on Neutral">
+      <description>Reset counters when digit 5 is encountered</description>
+      <logic>
+        <if condition="digit_class == NEUTRAL">
+          <action>consecutiveHighDigits = 0</action>
+          <action>consecutiveLowDigits = 0</action>
+          <action>lastHighDigitHit = false</action>
+          <action>lastLowDigitHit = false</action>
+        </if>
+      </logic>
+    </step>
+
+    <step number="9" name="Phase Management">
+      <description>Manage bot phase transitions based on conditions</description>
+      <phase_transitions>
+        <transition>
+          <from>WAITING</from>
+          <to>HIGH_DIGITS</to>
+          <condition>constraintsMet == true</condition>
+          <action>Log: Frequency constraints met. Awaiting 4 consecutive high digits...</action>
+        </transition>
+        <transition>
+          <from>HIGH_DIGITS</from>
+          <to>LOW_DIGITS</to>
+          <condition>consecutiveHighDigits &gt;= 4</condition>
+          <action>Log: 4 consecutive high digits detected! Awaiting 2 consecutive low digits...</action>
+        </transition>
+        <transition>
+          <from>LOW_DIGITS</from>
+          <to>READY</to>
+          <condition>consecutiveLowDigits &gt;= 2</condition>
+          <action>Log: ENTRY CONDITION MET! Execute trade.</action>
+        </transition>
+      </phase_transitions>
+    </step>
+
+    <step number="10" name="Execute Trade">
+      <description>Execute trade when all conditions are met</description>
+      <precondition>phase == READY</precondition>
+      <action>
+        <set>tradeActive = true</set>
+        <set>entryPrice = current_close</set>
+        <set>entryTime = current_time</set>
+        <set>send_signal = BUY</set>
+      </action>
+      <post_action>
+        <reset>phase = WAITING</reset>
+        <reset>consecutiveHighDigits = 0</reset>
+        <reset>consecutiveLowDigits = 0</reset>
+      </post_action>
+    </step>
+  </logic>
+
+  <conditions>
+    <entry_conditions>
+      <condition name="Frequency Constraint - Low Digits">
+        <rule>lowDigitPercentage &lt; 10%</rule>
+        <status>required</status>
+        <description>Occurrences of digits 0-4 must remain below 10%</description>
+      </condition>
+      <condition name="Frequency Constraint - High Digits">
+        <rule>highDigitPercentage &gt; 10.5%</rule>
+        <status>required</status>
+        <description>Occurrences of digits 6-9 must be above 10.5%</description>
+      </condition>
+      <condition name="Consecutive High Digits">
+        <rule>4 consecutive hits on digits 6-9</rule>
+        <status>required</status>
+        <description>Must observe 4 consecutive ticks with digits 6, 7, 8, or 9</description>
+      </condition>
+      <condition name="Consecutive Low Digits">
+        <rule>2 consecutive hits on digits 0-3</rule>
+        <status>required</status>
+        <description>After 4 high digits, must observe 2 consecutive ticks with digits 0, 1, 2, or 3</description>
+      </condition>
+    </entry_conditions>
+
+    <exit_conditions>
+      <condition name="Manual Exit">
+        <rule>User initiated</rule>
+        <description>Exit can be triggered manually or by external signals</description>
+      </condition>
+    </exit_conditions>
+  </conditions>
+
+  <monitoring>
+    <logs>
+      <log_entry>Each tick: Price, Digit, Phase, Status</log_entry>
+      <log_entry>Every 10 ticks: Detailed status report with percentages and counters</log_entry>
+      <log_entry>On entry: Trade entry details with all condition values</log_entry>
+    </logs>
+
+    <status_report>
+      <field name="phase">Current bot phase</field>
+      <field name="lowDigitPercentage">Current percentage of digits 0-4</field>
+      <field name="highDigitPercentage">Current percentage of digits 6-9</field>
+      <field name="consecutiveHigh">Current consecutive high digit count</field>
+      <field name="consecutiveLow">Current consecutive low digit count</field>
+      <field name="constraintsMet">Whether frequency constraints are satisfied</field>
+      <field name="tradeActive">Whether a trade is currently open</field>
+      <field name="ticksProcessed">Total ticks processed</field>
+      <field name="totalDigits">Total digit samples collected</field>
+    </status_report>
+  </monitoring>
+
+  <examples>
+    <example name="Scenario 1: Successful Entry">
+      <description>Example of successful trade entry</description>
+      <steps>
+        <step number="1">Ticks 1-50: Random digits sampled, low = 9.8%, high = 10.8%</step>
+        <step number="2">Tick 51: Digit 8 (high) - consecutiveHighDigits = 1</step>
+        <step number="3">Tick 52: Digit 7 (high) - consecutiveHighDigits = 2</step>
+        <step number="4">Tick 53: Digit 9 (high) - consecutiveHighDigits = 3</step>
+        <step number="5">Tick 54: Digit 6 (high) - consecutiveHighDigits = 4 → Phase = LOW_DIGITS</step>
+        <step number="6">Tick 55: Digit 3 (low) - consecutiveLowDigits = 1</step>
+        <step number="7">Tick 56: Digit 1 (low) - consecutiveLowDigits = 2 → Phase = READY → TRADE EXECUTED</step>
+      </steps>
+    </example>
+
+    <example name="Scenario 2: Reset on Interruption">
+      <description>Example of counter reset due to interrupting digit</description>
+      <steps>
+        <step number="1">Tick 51: Digit 8 (high) - consecutiveHighDigits = 1</step>
+        <step number="2">Tick 52: Digit 7 (high) - consecutiveHighDigits = 2</step>
+        <step number="3">Tick 53: Digit 5 (neutral) - consecutiveHighDigits = 0 (RESET)</step>
+        <step number="4">Tick 54: Digit 9 (high) - consecutiveHighDigits = 1 (restart count)</step>
+      </steps>
+    </example>
+
+    <example name="Scenario 3: Constraint Not Met">
+      <description>Example of waiting for constraints to be met</description>
+      <steps>
+        <step number="1">Ticks 1-30: low = 11.5%, high = 9.2%</step>
+        <step number="2">Phase remains WAITING - constraints not satisfied</step>
+        <step number="3">Ticks 31-50: Frequency shifts to low = 9.8%, high = 10.8%</step>
+        <step number="4">Constraints now met, phase transitions to HIGH_DIGITS</step>
+        <step number="5">Bot begins tracking consecutive high digits</step>
+      </steps>
+    </example>
+  </examples>
+
+  <performance_notes>
+    <note>Frequency percentages stabilize after 50-100 ticks of data collection</note>
+    <note>Consecutive counters reset on any interrupting digit or neutral digit (5)</note>
+    <note>Entry signals are only generated when ALL conditions are simultaneously met</note>
+    <note>State persists across candles to maintain frequency tracking accuracy</note>
+    <note>Bot remains in WAITING phase until frequency constraints are satisfied</note>
+  </performance_notes>
+
+  <configuration>
+    <parameter name="low_digit_threshold">
+      <value>10</value>
+      <unit>percent</unit>
+      <description>Maximum percentage for digits 0-4</description>
+      <adjustable>true</adjustable>
+    </parameter>
+    <parameter name="high_digit_threshold">
+      <value>10.5</value>
+      <unit>percent</unit>
+      <description>Minimum percentage for digits 6-9</description>
+      <adjustable>true</adjustable>
+    </parameter>
+    <parameter name="consecutive_high_target">
+      <value>4</value>
+      <unit>count</unit>
+      <description>Required consecutive high digits (6-9) for phase progression</description>
+      <adjustable>true</adjustable>
+    </parameter>
+    <parameter name="consecutive_low_target">
+      <value>2</value>
+      <unit>count</unit>
+      <description>Required consecutive low digits (0-3) for entry signal</description>
+      <adjustable>true</adjustable>
+    </parameter>
+    <parameter name="candle_interval">
+      <value>4t</value>
+      <description>Candle interval (4 ticks per candle)</description>
+      <adjustable>false</adjustable>
+    </parameter>
+  </configuration>
+
+  <code>
+    <javascript>
+      <![CDATA[
+// ============================================================================
+// STATE MANAGEMENT
+// ============================================================================
+
+let state = {
+  // Digit tracking
+  digitOccurrences: {
+    0: 0, 1: 0, 2: 0, 3: 0, 4: 0,
+    5: 0, 6: 0, 7: 0, 8: 0, 9: 0
+  },
+  totalDigits: 0,
+  
+  // Frequency percentages
+  lowDigitPercentage: 0,    // 0-4
+  highDigitPercentage: 0,   // 6-9
+  
+  // Consecutive hit tracking
+  consecutiveHighDigits: 0,  // Counter for 6-9
+  consecutiveLowDigits: 0,   // Counter for 0-3
+  lastHighDigitHit: false,
+  lastLowDigitHit: false,
+  
+  // Entry conditions
+  conditionsMetCount: 0,
+  phase: 'WAITING',
+  tradeActive: false,
+  
+  // Trade tracking
+  entryPrice: 0,
+  entryTime: 0,
+  ticksProcessed: 0
+};
+
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
+function getLastDigit(price) {
+  return Math.floor(price) % 10;
+}
+
+function classifyDigit(digit) {
+  if (digit >= 0 && digit <= 4) return 'LOW';
+  if (digit === 5) return 'NEUTRAL';
+  if (digit >= 6 && digit <= 9) return 'HIGH';
+}
+
+function updateFrequencyPercentages() {
+  if (state.totalDigits === 0) return;
+  
+  const lowDigitCount = state.digitOccurrences[0] + 
+                        state.digitOccurrences[1] + 
+                        state.digitOccurrences[2] + 
+                        state.digitOccurrences[3] + 
+                        state.digitOccurrences[4];
+  
+  const highDigitCount = state.digitOccurrences[6] + 
+                         state.digitOccurrences[7] + 
+                         state.digitOccurrences[8] + 
+                         state.digitOccurrences[9];
+  
+  state.lowDigitPercentage = (lowDigitCount / state.totalDigits) * 100;
+  state.highDigitPercentage = (highDigitCount / state.totalDigits) * 100;
+}
+
+function areFrequencyConstraintsMet() {
+  return (state.lowDigitPercentage < 10) && (state.highDigitPercentage > 10.5);
+}
+
+function processNewDigit(digit) {
+  state.digitOccurrences[digit]++;
+  state.totalDigits++;
+  
+  updateFrequencyPercentages();
+  
+  const digitClass = classifyDigit(digit);
+  
+  if (digitClass === 'HIGH') {
+    if (state.lastHighDigitHit) {
+      state.consecutiveHighDigits++;
+    } else {
+      state.consecutiveHighDigits = 1;
+    }
+    state.lastHighDigitHit = true;
+    state.consecutiveLowDigits = 0;
+    state.lastLowDigitHit = false;
+    
+  } else if (digitClass === 'LOW') {
+    if (state.lastLowDigitHit) {
+      state.consecutiveLowDigits++;
+    } else {
+      state.consecutiveLowDigits = 1;
+    }
+    state.lastLowDigitHit = true;
+    state.consecutiveHighDigits = 0;
+    state.lastHighDigitHit = false;
+    
+  } else if (digitClass === 'NEUTRAL') {
+    state.consecutiveHighDigits = 0;
+    state.consecutiveLowDigits = 0;
+    state.lastHighDigitHit = false;
+    state.lastLowDigitHit = false;
+  }
+  
+  if (state.phase === 'WAITING' && areFrequencyConstraintsMet()) {
+    state.phase = 'HIGH_DIGITS';
+  }
+  
+  if (state.phase === 'HIGH_DIGITS' && state.consecutiveHighDigits >= 4) {
+    state.phase = 'LOW_DIGITS';
+  }
+  
+  if (state.phase === 'LOW_DIGITS' && state.consecutiveLowDigits >= 2) {
+    state.phase = 'READY';
+    return true;
+  }
+  
+  return false;
+}
+
+function executeTrade(price, time) {
+  if (state.tradeActive) return;
+  
+  state.tradeActive = true;
+  state.entryPrice = price;
+  state.entryTime = time;
+}
+
+function onCandle(candle) {
+  const digit = getLastDigit(candle.close);
+  const entrySignal = processNewDigit(digit);
+  
+  if (entrySignal) {
+    executeTrade(candle.close, candle.time);
+    resetState();
+  }
+  
+  state.ticksProcessed++;
+}
+
+function resetState() {
+  state.phase = 'WAITING';
+  state.consecutiveHighDigits = 0;
+  state.consecutiveLowDigits = 0;
+  state.lastHighDigitHit = false;
+  state.lastLowDigitHit = false;
+}
+
+function getBotStatus() {
+  return {
+    phase: state.phase,
+    lowDigitPercentage: state.lowDigitPercentage.toFixed(2) + '%',
+    highDigitPercentage: state.highDigitPercentage.toFixed(2) + '%',
+    consecutiveHigh: state.consecutiveHighDigits,
+    consecutiveLow: state.consecutiveLowDigits,
+    constraintsMet: areFrequencyConstraintsMet(),
+    tradeActive: state.tradeActive,
+    ticksProcessed: state.ticksProcessed,
+    totalDigits: state.totalDigits
+  };
+}
+
+// ============================================================================
+// MAIN BOT LOGIC
+// ============================================================================
+
+Bot.init = function() {
+  console.log('🤖 Deriv DBot Initialized');
+};
+
+Bot.start = function(context) {
+  onCandle({
+    close: context.close,
+    time: context.time,
+    index: context.index
+  });
+  
+  if (state.ticksProcessed % 10 === 0) {
+    console.log('📊 Status:', getBotStatus());
+  }
+};
+      ]]>
+    </javascript>
+  </code>
+
+  <deployment>
+    <platform>Deriv DBot Builder</platform>
+    <requirements>
+      <requirement>DBot compatible browser or application</requirement>
+      <requirement>Active Deriv account</requirement>
+      <requirement>4-tick candle data stream</requirement>
+    </requirements>
+    <installation>
+      <step number="1">Copy the XML configuration</step>
+      <step number="2">Import into Deriv DBot Builder</step>
+      <step number="3">Configure trading parameters as needed</step>
+      <step number="4">Set trade size and risk management rules</step>
+      <step number="5">Backtest on historical data</step>
+      <step number="6">Deploy with live trading (optional)</step>
+    </installation>
+  </deployment>
+
+</dbot>
+      
