@@ -19,6 +19,7 @@
     <variable type="" id="lastDigit">last_digit</variable>
     <variable type="" id="botPhase">bot_phase</variable>
     <variable type="" id="stake">stake</variable>
+    <variable type="" id="lossCount">consecutive_losses</variable>
   </variables>
 
   <block type="trade" id="mainTrade" x="-500" y="-100">
@@ -41,117 +42,127 @@
           </block>
         </value>
         <next>
-          <block type="variables_set" id="initTotal">
-            <field name="VAR" id="totalDigits" variabletype="">total_digits</field>
+          <block type="variables_set" id="initLossCount">
+            <field name="VAR" id="lossCount" variabletype="">consecutive_losses</field>
             <value name="VALUE">
-              <block type="math_number" id="totalVal">
+              <block type="math_number" id="lossCountVal">
                 <field name="NUM">0</field>
               </block>
             </value>
             <next>
-              <block type="variables_set" id="initConsHigh">
-                <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+              <block type="variables_set" id="initTotal">
+                <field name="VAR" id="totalDigits" variabletype="">total_digits</field>
                 <value name="VALUE">
-                  <block type="math_number" id="consHighVal">
+                  <block type="math_number" id="totalVal">
                     <field name="NUM">0</field>
                   </block>
                 </value>
                 <next>
-                  <block type="variables_set" id="initConsLow">
-                    <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                  <block type="variables_set" id="initConsHigh">
+                    <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
                     <value name="VALUE">
-                      <block type="math_number" id="consLowVal">
+                      <block type="math_number" id="consHighVal">
                         <field name="NUM">0</field>
                       </block>
                     </value>
                     <next>
-                      <block type="variables_set" id="initPhase">
-                        <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
+                      <block type="variables_set" id="initConsLow">
+                        <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
                         <value name="VALUE">
-                          <block type="text" id="phaseWaiting">
-                            <field name="TEXT">WAITING</field>
+                          <block type="math_number" id="consLowVal">
+                            <field name="NUM">0</field>
                           </block>
                         </value>
                         <next>
-                          <block type="variables_set" id="initDig0">
-                            <field name="VAR" id="digitOcc0" variabletype="">digit_0_count</field>
+                          <block type="variables_set" id="initPhase">
+                            <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
                             <value name="VALUE">
-                              <block type="math_number" id="dig0Val">
-                                <field name="NUM">0</field>
+                              <block type="text" id="phaseWaiting">
+                                <field name="TEXT">WAITING</field>
                               </block>
                             </value>
                             <next>
-                              <block type="variables_set" id="initDig1">
-                                <field name="VAR" id="digitOcc1" variabletype="">digit_1_count</field>
+                              <block type="variables_set" id="initDig0">
+                                <field name="VAR" id="digitOcc0" variabletype="">digit_0_count</field>
                                 <value name="VALUE">
-                                  <block type="math_number" id="dig1Val">
+                                  <block type="math_number" id="dig0Val">
                                     <field name="NUM">0</field>
                                   </block>
                                 </value>
                                 <next>
-                                  <block type="variables_set" id="initDig2">
-                                    <field name="VAR" id="digitOcc2" variabletype="">digit_2_count</field>
+                                  <block type="variables_set" id="initDig1">
+                                    <field name="VAR" id="digitOcc1" variabletype="">digit_1_count</field>
                                     <value name="VALUE">
-                                      <block type="math_number" id="dig2Val">
+                                      <block type="math_number" id="dig1Val">
                                         <field name="NUM">0</field>
                                       </block>
                                     </value>
                                     <next>
-                                      <block type="variables_set" id="initDig3">
-                                        <field name="VAR" id="digitOcc3" variabletype="">digit_3_count</field>
+                                      <block type="variables_set" id="initDig2">
+                                        <field name="VAR" id="digitOcc2" variabletype="">digit_2_count</field>
                                         <value name="VALUE">
-                                          <block type="math_number" id="dig3Val">
+                                          <block type="math_number" id="dig2Val">
                                             <field name="NUM">0</field>
                                           </block>
                                         </value>
                                         <next>
-                                          <block type="variables_set" id="initDig4">
-                                            <field name="VAR" id="digitOcc4" variabletype="">digit_4_count</field>
+                                          <block type="variables_set" id="initDig3">
+                                            <field name="VAR" id="digitOcc3" variabletype="">digit_3_count</field>
                                             <value name="VALUE">
-                                              <block type="math_number" id="dig4Val">
+                                              <block type="math_number" id="dig3Val">
                                                 <field name="NUM">0</field>
                                               </block>
                                             </value>
                                             <next>
-                                              <block type="variables_set" id="initDig5">
-                                                <field name="VAR" id="digitOcc5" variabletype="">digit_5_count</field>
+                                              <block type="variables_set" id="initDig4">
+                                                <field name="VAR" id="digitOcc4" variabletype="">digit_4_count</field>
                                                 <value name="VALUE">
-                                                  <block type="math_number" id="dig5Val">
+                                                  <block type="math_number" id="dig4Val">
                                                     <field name="NUM">0</field>
                                                   </block>
                                                 </value>
                                                 <next>
-                                                  <block type="variables_set" id="initDig6">
-                                                    <field name="VAR" id="digitOcc6" variabletype="">digit_6_count</field>
+                                                  <block type="variables_set" id="initDig5">
+                                                    <field name="VAR" id="digitOcc5" variabletype="">digit_5_count</field>
                                                     <value name="VALUE">
-                                                      <block type="math_number" id="dig6Val">
+                                                      <block type="math_number" id="dig5Val">
                                                         <field name="NUM">0</field>
                                                       </block>
                                                     </value>
                                                     <next>
-                                                      <block type="variables_set" id="initDig7">
-                                                        <field name="VAR" id="digitOcc7" variabletype="">digit_7_count</field>
+                                                      <block type="variables_set" id="initDig6">
+                                                        <field name="VAR" id="digitOcc6" variabletype="">digit_6_count</field>
                                                         <value name="VALUE">
-                                                          <block type="math_number" id="dig7Val">
+                                                          <block type="math_number" id="dig6Val">
                                                             <field name="NUM">0</field>
                                                           </block>
                                                         </value>
                                                         <next>
-                                                          <block type="variables_set" id="initDig8">
-                                                            <field name="VAR" id="digitOcc8" variabletype="">digit_8_count</field>
+                                                          <block type="variables_set" id="initDig7">
+                                                            <field name="VAR" id="digitOcc7" variabletype="">digit_7_count</field>
                                                             <value name="VALUE">
-                                                              <block type="math_number" id="dig8Val">
+                                                              <block type="math_number" id="dig7Val">
                                                                 <field name="NUM">0</field>
                                                               </block>
                                                             </value>
                                                             <next>
-                                                              <block type="variables_set" id="initDig9">
-                                                                <field name="VAR" id="digitOcc9" variabletype="">digit_9_count</field>
+                                                              <block type="variables_set" id="initDig8">
+                                                                <field name="VAR" id="digitOcc8" variabletype="">digit_8_count</field>
                                                                 <value name="VALUE">
-                                                                  <block type="math_number" id="dig9Val">
+                                                                  <block type="math_number" id="dig8Val">
                                                                     <field name="NUM">0</field>
                                                                   </block>
                                                                 </value>
+                                                                <next>
+                                                                  <block type="variables_set" id="initDig9">
+                                                                    <field name="VAR" id="digitOcc9" variabletype="">digit_9_count</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="math_number" id="dig9Val">
+                                                                        <field name="NUM">0</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </next>
                                                               </block>
                                                             </next>
                                                           </block>
@@ -209,447 +220,520 @@
 
   <block type="after_purchase" id="afterPurch" x="100" y="-100">
     <statement name="AFTERPURCHASE_STACK">
-      <block type="variables_set" id="getLastDig">
-        <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
-        <value name="VALUE">
-          <block type="math_modulo" id="modCalc">
-            <value name="DIVIDEND">
-              <block type="math_floor" id="floorClose">
-                <value name="NUM">
-                  <block type="bot_candle" id="getClose">
-                    <field name="PROPERTY">close</field>
-                    <field name="INDEX">-1</field>
-                  </block>
-                </value>
-              </block>
-            </value>
-            <value name="DIVISOR">
-              <block type="math_number" id="mod10">
-                <field name="NUM">10</field>
-              </block>
-            </value>
+      <block type="controls_if" id="checkLosses">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="contract_check_result" id="checkWinLoss">
+            <field name="CHECK_RESULT">loss</field>
           </block>
         </value>
-        <next>
-          <block type="math_change" id="incTotal">
-            <field name="VAR" id="totalDigits" variabletype="">total_digits</field>
+        <statement name="DO0">
+          <block type="math_change" id="incrementLosses">
+            <field name="VAR" id="lossCount" variabletype="">consecutive_losses</field>
             <value name="DELTA">
-              <shadow type="math_number" id="delta1">
+              <shadow type="math_number" id="deltaLoss">
                 <field name="NUM">1</field>
               </shadow>
             </value>
             <next>
-              <block type="controls_if" id="checkDigit">
-                <mutation elseif="9"></mutation>
+              <block type="controls_if" id="checkLossThreshold">
                 <value name="IF0">
-                  <block type="logic_compare" id="eqDig0">
-                    <field name="OP">EQ</field>
+                  <block type="logic_compare" id="lossesGte3">
+                    <field name="OP">GTE</field>
                     <value name="A">
-                      <block type="variables_get" id="getDig">
-                        <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+                      <block type="variables_get" id="getLossCount">
+                        <field name="VAR" id="lossCount" variabletype="">consecutive_losses</field>
                       </block>
                     </value>
                     <value name="B">
-                      <block type="math_number" id="num0">
-                        <field name="NUM">0</field>
+                      <block type="math_number" id="three">
+                        <field name="NUM">3</field>
                       </block>
                     </value>
                   </block>
                 </value>
                 <statement name="DO0">
-                  <block type="math_change" id="inc0">
-                    <field name="VAR" id="digitOcc0" variabletype="">digit_0_count</field>
-                    <value name="DELTA">
-                      <shadow type="math_number" id="inc0Val">
-                        <field name="NUM">1</field>
-                      </shadow>
-                    </value>
-                    <next>
-                      <block type="variable_set" id="resetConsHigh1">
-                        <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                        <value name="VALUE">
-                          <block type="math_number" id="zero1">
-                            <field name="NUM">0</field>
+                  <block type="notify" id="notifyStop">
+                    <field name="NOTIFICATION_TYPE">error</field>
+                    <field name="NOTIFICATION_SOUND">silent</field>
+                    <value name="MESSAGE">
+                      <block type="text_join" id="messageText">
+                        <mutation items="2"></mutation>
+                        <value name="ADD0">
+                          <block type="text" id="stopMsg">
+                            <field name="TEXT">Bot stopped: 3 consecutive losses reached</field>
                           </block>
                         </value>
-                        <next>
-                          <block type="math_change" id="incConsLow1">
-                            <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                            <value name="DELTA">
-                              <shadow type="math_number" id="incLow1">
-                                <field name="NUM">1</field>
-                              </shadow>
-                            </value>
+                        <value name="ADD1">
+                          <block type="variables_get" id="getLossCountMsg">
+                            <field name="VAR" id="lossCount" variabletype="">consecutive_losses</field>
                           </block>
-                        </next>
+                        </value>
                       </block>
+                    </value>
+                    <next>
+                      <block type="bot_stop" id="stopBot"></block>
                     </next>
                   </block>
                 </statement>
-                <elseif>
-                  <value name="IF1">
-                    <block type="logic_compare" id="eqDig1">
-                      <field name="OP">EQ</field>
-                      <value name="A">
-                        <block type="variables_get" id="getDig1">
-                          <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
-                        </block>
-                      </value>
-                      <value name="B">
-                        <block type="math_number" id="num1">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <statement name="DO1">
-                    <block type="math_change" id="inc1">
-                      <field name="VAR" id="digitOcc1" variabletype="">digit_1_count</field>
-                      <value name="DELTA">
-                        <shadow type="math_number" id="inc1Val">
-                          <field name="NUM">1</field>
-                        </shadow>
-                      </value>
-                      <next>
-                        <block type="variables_set" id="resetConsHigh2">
-                          <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                          <value name="VALUE">
-                            <block type="math_number" id="zero2">
-                              <field name="NUM">0</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="variables_set" id="resetLosses">
+            <field name="VAR" id="lossCount" variabletype="">consecutive_losses</field>
+            <value name="VALUE">
+              <block type="math_number" id="zeroLosses">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="variables_set" id="getLastDig">
+            <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+            <value name="VALUE">
+              <block type="math_modulo" id="modCalc">
+                <value name="DIVIDEND">
+                  <block type="math_floor" id="floorClose">
+                    <value name="NUM">
+                      <block type="bot_candle" id="getClose">
+                        <field name="PROPERTY">close</field>
+                        <field name="INDEX">-1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="DIVISOR">
+                  <block type="math_number" id="mod10">
+                    <field name="NUM">10</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="math_change" id="incTotal">
+                <field name="VAR" id="totalDigits" variabletype="">total_digits</field>
+                <value name="DELTA">
+                  <shadow type="math_number" id="delta1">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="controls_if" id="checkDigit">
+                    <mutation elseif="9"></mutation>
+                    <value name="IF0">
+                      <block type="logic_compare" id="eqDig0">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_get" id="getDig">
+                            <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="num0">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="math_change" id="inc0">
+                        <field name="VAR" id="digitOcc0" variabletype="">digit_0_count</field>
+                        <value name="DELTA">
+                          <shadow type="math_number" id="inc0Val">
+                            <field name="NUM">1</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="resetConsHigh1">
+                            <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="zero1">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="math_change" id="incConsLow1">
+                                <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                                <value name="DELTA">
+                                  <shadow type="math_number" id="incLow1">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <elseif>
+                      <value name="IF1">
+                        <block type="logic_compare" id="eqDig1">
+                          <field name="OP">EQ</field>
+                          <value name="A">
+                            <block type="variables_get" id="getDig1">
+                              <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
                             </block>
                           </value>
-                          <next>
-                            <block type="math_change" id="incConsLow2">
-                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                              <value name="DELTA">
-                                <shadow type="math_number" id="incLow2">
-                                  <field name="NUM">1</field>
-                                </shadow>
-                              </value>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </statement>
-                </elseif>
-                <elseif>
-                  <value name="IF2">
-                    <block type="logic_compare" id="eqDig6">
-                      <field name="OP">EQ</field>
-                      <value name="A">
-                        <block type="variables_get" id="getDig6">
-                          <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
-                        </block>
-                      </value>
-                      <value name="B">
-                        <block type="math_number" id="num6">
-                          <field name="NUM">6</field>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <statement name="DO2">
-                    <block type="math_change" id="inc6">
-                      <field name="VAR" id="digitOcc6" variabletype="">digit_6_count</field>
-                      <value name="DELTA">
-                        <shadow type="math_number" id="inc6Val">
-                          <field name="NUM">1</field>
-                        </shadow>
-                      </value>
-                      <next>
-                        <block type="variable_set" id="resetConsLow1">
-                          <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                          <value name="VALUE">
-                            <block type="math_number" id="zero3">
-                              <field name="NUM">0</field>
+                          <value name="B">
+                            <block type="math_number" id="num1">
+                              <field name="NUM">1</field>
                             </block>
                           </value>
+                        </block>
+                      </value>
+                      <statement name="DO1">
+                        <block type="math_change" id="inc1">
+                          <field name="VAR" id="digitOcc1" variabletype="">digit_1_count</field>
+                          <value name="DELTA">
+                            <shadow type="math_number" id="inc1Val">
+                              <field name="NUM">1</field>
+                            </shadow>
+                          </value>
                           <next>
-                            <block type="math_change" id="incConsHigh1">
+                            <block type="variables_set" id="resetConsHigh2">
                               <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                              <value name="DELTA">
-                                <shadow type="math_number" id="incHigh1">
-                                  <field name="NUM">1</field>
-                                </shadow>
+                              <value name="VALUE">
+                                <block type="math_number" id="zero2">
+                                  <field name="NUM">0</field>
+                                </block>
                               </value>
                               <next>
-                                <block type="controls_if" id="checkPhase1">
-                                  <value name="IF0">
-                                    <block type="logic_compare" id="phaseEqWait">
-                                      <field name="OP">EQ</field>
-                                      <value name="A">
-                                        <block type="variables_get" id="getPhase1">
-                                          <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
-                                        </block>
-                                      </value>
-                                      <value name="B">
-                                        <block type="text" id="textWait">
-                                          <field name="TEXT">WAITING</field>
-                                        </block>
-                                      </value>
-                                    </block>
+                                <block type="math_change" id="incConsLow2">
+                                  <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                                  <value name="DELTA">
+                                    <shadow type="math_number" id="incLow2">
+                                      <field name="NUM">1</field>
+                                    </shadow>
                                   </value>
-                                  <statement name="DO0">
-                                    <block type="variables_set" id="setPhaseHigh">
-                                      <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
-                                      <value name="VALUE">
-                                        <block type="text" id="textHigh">
-                                          <field name="TEXT">HIGH_DIGITS</field>
-                                        </block>
-                                      </value>
-                                      <next>
-                                        <block type="controls_if" id="check4High">
-                                          <value name="IF0">
-                                            <block type="logic_compare" id="consHighGte4">
-                                              <field name="OP">GTE</field>
-                                              <value name="A">
-                                                <block type="variables_get" id="getConsHigh1">
-                                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                                                </block>
-                                              </value>
-                                              <value name="B">
-                                                <block type="math_number" id="four">
-                                                  <field name="NUM">4</field>
-                                                </block>
-                                              </value>
-                                            </block>
-                                          </value>
-                                          <statement name="DO0">
-                                            <block type="variables_set" id="setPhaseLow">
-                                              <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
-                                              <value name="VALUE">
-                                                <block type="text" id="textLow">
-                                                  <field name="TEXT">LOW_DIGITS</field>
-                                                </block>
-                                              </value>
-                                            </block>
-                                          </statement>
-                                        </block>
-                                      </next>
-                                    </block>
-                                  </statement>
                                 </block>
                               </next>
                             </block>
                           </next>
                         </block>
-                      </next>
-                    </block>
-                  </statement>
-                </elseif>
-                <elseif>
-                  <value name="IF3">
-                    <block type="logic_compare" id="eqDig7">
-                      <field name="OP">EQ</field>
-                      <value name="A">
-                        <block type="variables_get" id="getDig7">
-                          <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
-                        </block>
-                      </value>
-                      <value name="B">
-                        <block type="math_number" id="num7">
-                          <field name="NUM">7</field>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <statement name="DO3">
-                    <block type="math_change" id="inc7">
-                      <field name="VAR" id="digitOcc7" variabletype="">digit_7_count</field>
-                      <value name="DELTA">
-                        <shadow type="math_number" id="inc7Val">
-                          <field name="NUM">1</field>
-                        </shadow>
-                      </value>
-                      <next>
-                        <block type="variables_set" id="resetConsLow2">
-                          <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                          <value name="VALUE">
-                            <block type="math_number" id="zero4">
-                              <field name="NUM">0</field>
+                      </statement>
+                    </elseif>
+                    <elseif>
+                      <value name="IF2">
+                        <block type="logic_compare" id="eqDig6">
+                          <field name="OP">EQ</field>
+                          <value name="A">
+                            <block type="variables_get" id="getDig6">
+                              <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
                             </block>
                           </value>
-                          <next>
-                            <block type="math_change" id="incConsHigh2">
-                              <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                              <value name="DELTA">
-                                <shadow type="math_number" id="incHigh2">
-                                  <field name="NUM">1</field>
-                                </shadow>
-                              </value>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </statement>
-                </elseif>
-                <elseif>
-                  <value name="IF4">
-                    <block type="logic_compare" id="eqDig8">
-                      <field name="OP">EQ</field>
-                      <value name="A">
-                        <block type="variables_get" id="getDig8">
-                          <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
-                        </block>
-                      </value>
-                      <value name="B">
-                        <block type="math_number" id="num8">
-                          <field name="NUM">8</field>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <statement name="DO4">
-                    <block type="math_change" id="inc8">
-                      <field name="VAR" id="digitOcc8" variabletype="">digit_8_count</field>
-                      <value name="DELTA">
-                        <shadow type="math_number" id="inc8Val">
-                          <field name="NUM">1</field>
-                        </shadow>
-                      </value>
-                      <next>
-                        <block type="variables_set" id="resetConsLow3">
-                          <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                          <value name="VALUE">
-                            <block type="math_number" id="zero5">
-                              <field name="NUM">0</field>
+                          <value name="B">
+                            <block type="math_number" id="num6">
+                              <field name="NUM">6</field>
                             </block>
                           </value>
-                          <next>
-                            <block type="math_change" id="incConsHigh3">
-                              <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                              <value name="DELTA">
-                                <shadow type="math_number" id="incHigh3">
-                                  <field name="NUM">1</field>
-                                </shadow>
-                              </value>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </statement>
-                </elseif>
-                <elseif>
-                  <value name="IF5">
-                    <block type="logic_compare" id="eqDig9">
-                      <field name="OP">EQ</field>
-                      <value name="A">
-                        <block type="variables_get" id="getDig9">
-                          <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
                         </block>
                       </value>
-                      <value name="B">
-                        <block type="math_number" id="num9">
-                          <field name="NUM">9</field>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <statement name="DO5">
-                    <block type="math_change" id="inc9">
-                      <field name="VAR" id="digitOcc9" variabletype="">digit_9_count</field>
-                      <value name="DELTA">
-                        <shadow type="math_number" id="inc9Val">
-                          <field name="NUM">1</field>
-                        </shadow>
-                      </value>
-                      <next>
-                        <block type="variables_set" id="resetConsLow4">
-                          <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                          <value name="VALUE">
-                            <block type="math_number" id="zero6">
-                              <field name="NUM">0</field>
-                            </block>
+                      <statement name="DO2">
+                        <block type="math_change" id="inc6">
+                          <field name="VAR" id="digitOcc6" variabletype="">digit_6_count</field>
+                          <value name="DELTA">
+                            <shadow type="math_number" id="inc6Val">
+                              <field name="NUM">1</field>
+                            </shadow>
                           </value>
                           <next>
-                            <block type="math_change" id="incConsHigh4">
-                              <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                              <value name="DELTA">
-                                <shadow type="math_number" id="incHigh4">
-                                  <field name="NUM">1</field>
-                                </shadow>
+                            <block type="variables_set" id="resetConsLow1">
+                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                              <value name="VALUE">
+                                <block type="math_number" id="zero3">
+                                  <field name="NUM">0</field>
+                                </block>
                               </value>
                               <next>
-                                <block type="controls_if" id="checkPhase2">
-                                  <value name="IF0">
-                                    <block type="logic_compare" id="phaseEqLow">
-                                      <field name="OP">EQ</field>
-                                      <value name="A">
-                                        <block type="variables_get" id="getPhase2">
-                                          <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
-                                        </block>
-                                      </value>
-                                      <value name="B">
-                                        <block type="text" id="textLowPhase">
-                                          <field name="TEXT">LOW_DIGITS</field>
-                                        </block>
-                                      </value>
-                                    </block>
+                                <block type="math_change" id="incConsHigh1">
+                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                                  <value name="DELTA">
+                                    <shadow type="math_number" id="incHigh1">
+                                      <field name="NUM">1</field>
+                                    </shadow>
                                   </value>
-                                  <statement name="DO0">
-                                    <block type="controls_if" id="check2Low">
+                                  <next>
+                                    <block type="controls_if" id="checkPhase1">
                                       <value name="IF0">
-                                        <block type="logic_compare" id="consLowGte2">
-                                          <field name="OP">GTE</field>
+                                        <block type="logic_compare" id="phaseEqWait">
+                                          <field name="OP">EQ</field>
                                           <value name="A">
-                                            <block type="variables_get" id="getConsLow1">
-                                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                                            <block type="variables_get" id="getPhase1">
+                                              <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
                                             </block>
                                           </value>
                                           <value name="B">
-                                            <block type="math_number" id="two">
-                                              <field name="NUM">2</field>
+                                            <block type="text" id="textWait">
+                                              <field name="TEXT">WAITING</field>
                                             </block>
                                           </value>
                                         </block>
                                       </value>
                                       <statement name="DO0">
-                                        <block type="variables_set" id="resetAll">
+                                        <block type="variables_set" id="setPhaseHigh">
                                           <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
                                           <value name="VALUE">
-                                            <block type="text" id="textReset">
-                                              <field name="TEXT">WAITING</field>
+                                            <block type="text" id="textHigh">
+                                              <field name="TEXT">HIGH_DIGITS</field>
                                             </block>
                                           </value>
                                           <next>
-                                            <block type="variables_set" id="resetConsHighFinal">
-                                              <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
-                                              <value name="VALUE">
-                                                <block type="math_number" id="zeroFinal1">
-                                                  <field name="NUM">0</field>
-                                                </block>
-                                              </value>
-                                              <next>
-                                                <block type="variables_set" id="resetConsLowFinal">
-                                                  <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
-                                                  <value name="VALUE">
-                                                    <block type="math_number" id="zeroFinal2">
-                                                      <field name="NUM">0</field>
+                                            <block type="controls_if" id="check4High">
+                                              <value name="IF0">
+                                                <block type="logic_compare" id="consHighGte4">
+                                                  <field name="OP">GTE</field>
+                                                  <value name="A">
+                                                    <block type="variables_get" id="getConsHigh1">
+                                                      <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
                                                     </block>
                                                   </value>
-                                                  <next>
-                                                    <block type="trade_again" id="tradeAgain"></block>
-                                                  </next>
+                                                  <value name="B">
+                                                    <block type="math_number" id="four">
+                                                      <field name="NUM">4</field>
+                                                    </block>
+                                                  </value>
                                                 </block>
-                                              </next>
+                                              </value>
+                                              <statement name="DO0">
+                                                <block type="variables_set" id="setPhaseLow">
+                                                  <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
+                                                  <value name="VALUE">
+                                                    <block type="text" id="textLow">
+                                                      <field name="TEXT">LOW_DIGITS</field>
+                                                    </block>
+                                                  </value>
+                                                </block>
+                                              </statement>
                                             </block>
                                           </next>
                                         </block>
                                       </statement>
                                     </block>
-                                  </statement>
+                                  </next>
                                 </block>
                               </next>
                             </block>
                           </next>
                         </block>
-                      </next>
-                    </block>
-                  </statement>
-                </elseif>
+                      </statement>
+                    </elseif>
+                    <elseif>
+                      <value name="IF3">
+                        <block type="logic_compare" id="eqDig7">
+                          <field name="OP">EQ</field>
+                          <value name="A">
+                            <block type="variables_get" id="getDig7">
+                              <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+                            </block>
+                          </value>
+                          <value name="B">
+                            <block type="math_number" id="num7">
+                              <field name="NUM">7</field>
+                            </block>
+                          </value>
+                        </block>
+                      </value>
+                      <statement name="DO3">
+                        <block type="math_change" id="inc7">
+                          <field name="VAR" id="digitOcc7" variabletype="">digit_7_count</field>
+                          <value name="DELTA">
+                            <shadow type="math_number" id="inc7Val">
+                              <field name="NUM">1</field>
+                            </shadow>
+                          </value>
+                          <next>
+                            <block type="variables_set" id="resetConsLow2">
+                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                              <value name="VALUE">
+                                <block type="math_number" id="zero4">
+                                  <field name="NUM">0</field>
+                                </block>
+                              </value>
+                              <next>
+                                <block type="math_change" id="incConsHigh2">
+                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                                  <value name="DELTA">
+                                    <shadow type="math_number" id="incHigh2">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </statement>
+                    </elseif>
+                    <elseif>
+                      <value name="IF4">
+                        <block type="logic_compare" id="eqDig8">
+                          <field name="OP">EQ</field>
+                          <value name="A">
+                            <block type="variables_get" id="getDig8">
+                              <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+                            </block>
+                          </value>
+                          <value name="B">
+                            <block type="math_number" id="num8">
+                              <field name="NUM">8</field>
+                            </block>
+                          </value>
+                        </block>
+                      </value>
+                      <statement name="DO4">
+                        <block type="math_change" id="inc8">
+                          <field name="VAR" id="digitOcc8" variabletype="">digit_8_count</field>
+                          <value name="DELTA">
+                            <shadow type="math_number" id="inc8Val">
+                              <field name="NUM">1</field>
+                            </shadow>
+                          </value>
+                          <next>
+                            <block type="variables_set" id="resetConsLow3">
+                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                              <value name="VALUE">
+                                <block type="math_number" id="zero5">
+                                  <field name="NUM">0</field>
+                                </block>
+                              </value>
+                              <next>
+                                <block type="math_change" id="incConsHigh3">
+                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                                  <value name="DELTA">
+                                    <shadow type="math_number" id="incHigh3">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </statement>
+                    </elseif>
+                    <elseif>
+                      <value name="IF5">
+                        <block type="logic_compare" id="eqDig9">
+                          <field name="OP">EQ</field>
+                          <value name="A">
+                            <block type="variables_get" id="getDig9">
+                              <field name="VAR" id="lastDigit" variabletype="">last_digit</field>
+                            </block>
+                          </value>
+                          <value name="B">
+                            <block type="math_number" id="num9">
+                              <field name="NUM">9</field>
+                            </block>
+                          </value>
+                        </block>
+                      </value>
+                      <statement name="DO5">
+                        <block type="math_change" id="inc9">
+                          <field name="VAR" id="digitOcc9" variabletype="">digit_9_count</field>
+                          <value name="DELTA">
+                            <shadow type="math_number" id="inc9Val">
+                              <field name="NUM">1</field>
+                            </shadow>
+                          </value>
+                          <next>
+                            <block type="variables_set" id="resetConsLow4">
+                              <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                              <value name="VALUE">
+                                <block type="math_number" id="zero6">
+                                  <field name="NUM">0</field>
+                                </block>
+                              </value>
+                              <next>
+                                <block type="math_change" id="incConsHigh4">
+                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                                  <value name="DELTA">
+                                    <shadow type="math_number" id="incHigh4">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                  <next>
+                                    <block type="controls_if" id="checkPhase2">
+                                      <value name="IF0">
+                                        <block type="logic_compare" id="phaseEqLow">
+                                          <field name="OP">EQ</field>
+                                          <value name="A">
+                                            <block type="variables_get" id="getPhase2">
+                                              <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
+                                            </block>
+                                          </value>
+                                          <value name="B">
+                                            <block type="text" id="textLowPhase">
+                                              <field name="TEXT">LOW_DIGITS</field>
+                                            </block>
+                                          </value>
+                                        </block>
+                                      </value>
+                                      <statement name="DO0">
+                                        <block type="controls_if" id="check2Low">
+                                          <value name="IF0">
+                                            <block type="logic_compare" id="consLowGte2">
+                                              <field name="OP">GTE</field>
+                                              <value name="A">
+                                                <block type="variables_get" id="getConsLow1">
+                                                  <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                                                </block>
+                                              </value>
+                                              <value name="B">
+                                                <block type="math_number" id="two">
+                                                  <field name="NUM">2</field>
+                                                </block>
+                                              </value>
+                                            </block>
+                                          </value>
+                                          <statement name="DO0">
+                                            <block type="variables_set" id="resetAll">
+                                              <field name="VAR" id="botPhase" variabletype="">bot_phase</field>
+                                              <value name="VALUE">
+                                                <block type="text" id="textReset">
+                                                  <field name="TEXT">WAITING</field>
+                                                </block>
+                                              </value>
+                                              <next>
+                                                <block type="variables_set" id="resetConsHighFinal">
+                                                  <field name="VAR" id="consHigh" variabletype="">consecutive_high</field>
+                                                  <value name="VALUE">
+                                                    <block type="math_number" id="zeroFinal1">
+                                                      <field name="NUM">0</field>
+                                                    </block>
+                                                  </value>
+                                                  <next>
+                                                    <block type="variables_set" id="resetConsLowFinal">
+                                                      <field name="VAR" id="consLow" variabletype="">consecutive_low</field>
+                                                      <value name="VALUE">
+                                                        <block type="math_number" id="zeroFinal2">
+                                                          <field name="NUM">0</field>
+                                                        </block>
+                                                      </value>
+                                                      <next>
+                                                        <block type="trade_again" id="tradeAgain"></block>
+                                                      </next>
+                                                    </block>
+                                                  </next>
+                                                </block>
+                                              </next>
+                                            </block>
+                                          </statement>
+                                        </block>
+                                      </statement>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </statement>
+                    </elseif>
+                  </block>
+                </next>
               </block>
             </next>
           </block>
