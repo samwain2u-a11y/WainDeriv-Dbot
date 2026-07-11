@@ -1,4 +1,4 @@
-﻿<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
   <variables>
     <variable type="" id="Y9p2O:.;8?yYC6B4vvHZ">Max Acceptable Loss</variable>
     <variable type="" id="fU+VA2`G?D.wE36`D/PS">Expected Profit</variable>
@@ -85,6 +85,8 @@
                                         <field name="BOOL">FALSE</field>
                                       </block>
                                     </value>
+                                  </block>
+                                </next>
                               </block>
                             </next>
                           </block>
