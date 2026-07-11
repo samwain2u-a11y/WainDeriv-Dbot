@@ -4,6 +4,12 @@
     <variable type="" id="fU+VA2`G?D.wE36`D/PS">Expected Profit</variable>
     <variable type="" id="r1H1#uuieLEYrLF).m/d">Initial Amount</variable>
     <variable type="" id="2Q=|YzV1tZLyS-FjQFAb">Win Amount</variable>
+    <variable type="" id="digit_high_hits">Digit High Hits</variable>
+    <variable type="" id="digit_low_hits">Digit Low Hits</variable>
+    <variable type="" id="current_digit">Current Digit</variable>
+    <variable type="" id="can_purchase">Can Purchase</variable>
+    <variable type="" id="high_hit_threshold">High Hit Threshold</variable>
+    <variable type="" id="market_condition_ok">Market Condition OK</variable>
   </variables>
   <block type="trade" id="trade" collapsed="true" x="0" y="0">
     <field name="MARKET_LIST">volidx</field>
@@ -47,6 +53,44 @@
                         <field name="NUM">0.35</field>
                       </block>
                     </value>
+                    <next>
+                      <block type="variables_set" id="digit_high_init">
+                        <field name="VAR" id="digit_high_hits" variabletype="">Digit High Hits</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="digit_high_init_val">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="digit_low_init">
+                            <field name="VAR" id="digit_low_hits" variabletype="">Digit Low Hits</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="digit_low_init_val">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set" id="can_purchase_init">
+                                <field name="VAR" id="can_purchase" variabletype="">Can Purchase</field>
+                                <value name="VALUE">
+                                  <block type="logic_boolean" id="can_purchase_init_val">
+                                    <field name="BOOL">FALSE</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set" id="market_condition_init">
+                                    <field name="VAR" id="market_condition_ok" variabletype="">Market Condition OK</field>
+                                    <value name="VALUE">
+                                      <block type="logic_boolean" id="market_condition_init_val">
+                                        <field name="BOOL">FALSE</field>
+                                      </block>
+                                    </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
                   </block>
                 </next>
               </block>
@@ -113,6 +157,26 @@
                     <field name="VAR" id="2Q=|YzV1tZLyS-FjQFAb" variabletype="">Win Amount</field>
                   </block>
                 </value>
+                <next>
+                  <block type="variables_set" id="reset_hits_on_win">
+                    <field name="VAR" id="digit_high_hits" variabletype="">Digit High Hits</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="reset_high_val">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="reset_low_on_win">
+                        <field name="VAR" id="digit_low_hits" variabletype="">Digit Low Hits</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="reset_low_val">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
               </block>
             </next>
           </block>
@@ -303,8 +367,128 @@
   </block>
   <block type="before_purchase" id="strategy" collapsed="true" x="0" y="106">
     <statement name="BEFOREPURCHASE_STACK">
-      <block type="purchase" id="XHCQg3yE#4z8vD?6dE^K">
-        <field name="PURCHASE_LIST">DIGITUNDER</field>
+      <block type="controls_if" id="market_condition_check">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="logic_operation" id="check_market_op">
+            <field name="OP">AND</field>
+            <value name="A">
+              <block type="logic_operation" id="check_low_digits">
+                <field name="OP">AND</field>
+                <value name="A">
+                  <block type="logic_compare" id="check_digit_0_4_low">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_digit_low_for_check">
+                        <field name="VAR" id="digit_low_hits" variabletype="">Digit Low Hits</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="low_threshold">
+                        <field name="NUM">10</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_compare" id="check_digit_5_8_high">
+                    <field name="OP">GT</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_digit_high_for_check">
+                        <field name="VAR" id="digit_high_hits" variabletype="">Digit High Hits</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="high_threshold">
+                        <field name="NUM">10</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_compare" id="check_high_hits_range">
+                <field name="OP">GTE</field>
+                <value name="A">
+                  <block type="variables_get" id="get_high_hits_range">
+                    <field name="VAR" id="digit_high_hits" variabletype="">Digit High Hits</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="min_high_hits">
+                    <field name="NUM">4</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="variables_set" id="set_purchase_true">
+            <field name="VAR" id="can_purchase" variabletype="">Can Purchase</field>
+            <value name="VALUE">
+              <block type="logic_boolean" id="purchase_enabled">
+                <field name="BOOL">TRUE</field>
+              </block>
+            </value>
+            <next>
+              <block type="notify" id="market_condition_met">
+                <field name="NOTIFICATION_TYPE">info</field>
+                <field name="NOTIFICATION_SOUND">silent</field>
+                <value name="MESSAGE">
+                  <block type="text_join" id="market_msg">
+                    <mutation items="4"></mutation>
+                    <value name="ADD0">
+                      <block type="text" id="msg_part1">
+                        <field name="TEXT">Market Ready | Low: </field>
+                      </block>
+                    </value>
+                    <value name="ADD1">
+                      <block type="variables_get" id="msg_low">
+                        <field name="VAR" id="digit_low_hits" variabletype="">Digit Low Hits</field>
+                      </block>
+                    </value>
+                    <value name="ADD2">
+                      <block type="text" id="msg_part2">
+                        <field name="TEXT">% | High: </field>
+                      </block>
+                    </value>
+                    <value name="ADD3">
+                      <block type="variables_get" id="msg_high">
+                        <field name="VAR" id="digit_high_hits" variabletype="">Digit High Hits</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="variables_set" id="set_purchase_false">
+            <field name="VAR" id="can_purchase" variabletype="">Can Purchase</field>
+            <value name="VALUE">
+              <block type="logic_boolean" id="purchase_disabled">
+                <field name="BOOL">FALSE</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="controls_if" id="should_purchase_check">
+            <value name="IF0">
+              <block type="variables_get" id="check_can_purchase">
+                <field name="VAR" id="can_purchase" variabletype="">Can Purchase</field>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="purchase" id="XHCQg3yE#4z8vD?6dE^K">
+                <field name="PURCHASE_LIST">DIGITUNDER</field>
+              </block>
+            </statement>
+          </block>
+        </next>
       </block>
     </statement>
   </block>
