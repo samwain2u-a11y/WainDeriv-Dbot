@@ -578,29 +578,6 @@
     </statement>
   </block>
 
-  <!-- TICK ANALYSIS: Display last digit -->
-  <block type="tick_analysis" id="XOop?i$/{Sz%:#,2TgQ_" x="0" y="2106">
-    <statement name="TICKANALYSIS_STACK">
-      <block type="notify" id="TICK_NOTIFY">
-        <field name="NOTIFICATION_TYPE">info</field>
-        <field name="NOTIFICATION_SOUND">silent</field>
-        <value name="MESSAGE">
-          <block type="text_join" id="TICK_MSG">
-            <mutation items="2"></mutation>
-            <value name="ADD0">
-              <block type="text" id="TICK_MSG_1">
-                <field name="TEXT">📊 Last Digit: </field>
-              </block>
-            </value>
-            <value name="ADD1">
-              <block type="last_digit" id="TICK_LAST_DIGIT"></block>
-            </value>
-          </block>
-        </value>
-      </block>
-    </statement>
-  </block>
-
   <!-- BEFORE PURCHASE: Trade Execution -->
   <block type="before_purchase" id="i-CIx.(Onm4?ihxzA}Y]" x="0" y="2207">
     <statement name="BEFOREPURCHASE_STACK">
