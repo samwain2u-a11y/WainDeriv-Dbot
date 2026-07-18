@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable type="" id="-EHK6/v8Wz.gUjfBy{,{">TARGET PROFIT</variable>
+    <variable type="" id="?aieB;:d^Z/_6!4qbK|b">STAKE</variable>
+    <variable type="" id="iF9Jj(b*T]LI4.#2]oiP">LOSS_STREAK</variable>
+    <variable type="" id="#660:g_f?GEQE_4o$n5g">TRADE_DIRECTION</variable>
+    <variable type="" id="yGW!54]#yzA5)R:=Q^3a">MAX_LOSS_LIMIT</variable>
+    <variable type="" id=",@w{He:Si@e}6ti}cbY0">NEXT_TRADE</variable>
+    <variable type="" id="?;Ua=WNTFcShd-9UVRE,">SESSION_PROFIT</variable>
+    <variable type="" id="N::m,gk~Upvrbi(skiC2">INITIAL_STAKE</variable>
+    <variable type="" id="J)G%1Ne/$W1F_v-)0``-">PROFIT_REMAINING</variable>
+    <variable type="" id="IiKOh|h=lV#S5`S236)^">TAKE_PROFIT_LEVEL</variable>
+    <variable type="" id="K9x#2mL@pQ!5aBcD7eRs">MAX_LOSS_STREAK</variable>
+    <variable type="" id="zT8vN#4jH@wYxKqL2uFp">BOT_ACTIVE</variable>
+  </variables>
+
+  <!-- INITIALIZATION BLOCK -->
+  <block type="trade" id="xgH69|xFn9=70w.*3Vo@" inline="false" x="0" y="0">
+    <field name="MARKET_LIST">volidx</field>
+    <field name="SUBMARKET_LIST">random_index</field>
+    <field name="SYMBOL_LIST">R_100</field>
+    <field name="TRADETYPECAT_LIST">digits</field>
+    <field name="TRADETYPE_LIST">overunder</field>
+    <field name="TYPE_LIST">both</field>
+    <field name="CANDLEINTERVAL_LIST">60</field>
+    <field name="TIME_MACHINE_ENABLED">FALSE</field>
+    <field name="RESTARTONERROR">TRUE</field>
+
+    <statement name="INITIALIZATION">
+      <!-- Bot Active Flag -->
+      <block type="variables_set" id="BOT_INIT_001">
+        <field name="VAR" id="zT8vN#4jH@wYxKqL2uFp" variabletype="">BOT_ACTIVE</field>
+        <value name="VALUE">
+          <block type="logic_boolean" id="BOT_INIT_TRUE">
+            <field name="BOOL">TRUE</field>
+          </block>
+        </value>
+        <next>
+          <!-- Target Profit -->
+          <block type="variables_set" id="v91EUmNhND+ZU[tmIpRh">
+            <field name="VAR" id="-EHK6/v8Wz.gUjfBy{,{" variabletype="">TARGET PROFIT</field>
+            <value name="VALUE">
+              <block type="math_number" id=".?qEhdAS(4ZgT}hjMQ3I">
+                <field name="NUM">2.5</field>
+              </block>
+            </value>
+            <next>
+              <!-- Initial Stake (save for reset) -->
+              <block type="variables_set" id="INIT_WINSTAKE">
+                <field name="VAR" id="N::m,gk~Upvrbi(skiC2" variabletype="">INITIAL_STAKE</field>
+                <value name="VALUE">
+                  <block type="math_number" id="INIT_STAKE_VAL">
+                    <field name="NUM">0.5</field>
+                  </block>
+                </value>
+                <next>
+                  <!-- Current Stake -->
+                  <block type="variables_set" id="*mZu8-khSTgT#r?}vfb/">
+                    <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                    <value name="VALUE">
+                      <block type="variables_get" id="GET_INIT_STAKE">
+                        <field name="VAR" id="N::m,gk~Upvrbi(skiC2" variabletype="">INITIAL_STAKE</field>
+                      </block>
+                    </value>
+                    <next>
+                      <!-- Max Loss Limit (10% of balance or fixed amount) -->
+                      <block type="variables_set" id="INIT_LOSS_LIMIT">
+                        <field name="VAR" id="yGW!54]#yzA5)R:=Q^3a" variabletype="">MAX_LOSS_LIMIT</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="LOSS_LIMIT_VAL">
+                            <field name="NUM">5</field>
+                          </block>
+                        </value>
+                        <next>
+                          <!-- Max Loss Streak (prevent infinite martingale) -->
+                          <block type="variables_set" id="INIT_MAX_STREAK">
+                            <field name="VAR" id="K9x#2mL@pQ!5aBcD7eRs" variabletype="">MAX_LOSS_STREAK</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="MAX_STREAK_VAL">
+                                <field name="NUM">5</field>
+                              </block>
+                            </value>
+                            <next>
+                              <!-- Loss Streak Counter -->
+                              <block type="variables_set" id="INIT_LOSS_STREAK">
+                                <field name="VAR" id="iF9Jj(b*T]LI4.#2]oiP" variabletype="">LOSS_STREAK</field>
+                                <value name="VALUE">
+                                  <block type="math_number" id="LOSS_STREAK_INIT">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <!-- Session Profit Tracker -->
+                                  <block type="variables_set" id="INIT_SESSION_PROFIT">
+                                    <field name="VAR" id="?;Ua=WNTFcShd-9UVRE," variabletype="">SESSION_PROFIT</field>
+                                    <value name="VALUE">
+                                      <block type="math_number" id="SESSION_PROFIT_INIT">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <!-- Trade Direction (A=Over, B=Under) -->
+                                      <block type="variables_set" id="INIT_DIRECTION">
+                                        <field name="VAR" id="#660:g_f?GEQE_4o$n5g" variabletype="">TRADE_DIRECTION</field>
+                                        <value name="VALUE">
+                                          <block type="text" id="DIR_A">
+                                            <field name="TEXT">A</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <!-- Calculate Take Profit Level -->
+                                          <block type="variables_set" id="INIT_TAKE_PROFIT">
+                                            <field name="VAR" id="IiKOh|h=lV#S5`S236)^" variabletype="">TAKE_PROFIT_LEVEL</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic" id="CALC_TP">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <shadow type="math_number" id="TP_SHADOW">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                  <block type="balance" id="TP_BALANCE">
+                                                    <field name="BALANCE_TYPE">NUM</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="math_number" id="TP_TARGET">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                  <block type="variables_get" id="TP_GET_TARGET">
+                                                    <field name="VAR" id="-EHK6/v8Wz.gUjfBy{,{" variabletype="">TARGET PROFIT</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <!-- Initial Success Notification -->
+                                              <block type="notify" id="INIT_NOTIFY">
+                                                <field name="NOTIFICATION_TYPE">success</field>
+                                                <field name="NOTIFICATION_SOUND">silent</field>
+                                                <value name="MESSAGE">
+                                                  <block type="text_join" id="INIT_MSG">
+                                                    <mutation items="4"></mutation>
+                                                    <value name="ADD0">
+                                                      <block type="text" id="INIT_MSG_1">
+                                                        <field name="TEXT">🤖 BOT STARTED | Target: $</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD1">
+                                                      <block type="variables_get" id="INIT_MSG_TARGET">
+                                                        <field name="VAR" id="-EHK6/v8Wz.gUjfBy{,{" variabletype="">TARGET PROFIT</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD2">
+                                                      <block type="text" id="INIT_MSG_2">
+                                                        <field name="TEXT"> | Stake: $</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD3">
+                                                      <block type="variables_get" id="INIT_MSG_STAKE">
+                                                        <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+
+    <!-- SUBMARKET BLOCK: Execute Trade or Skip -->
+    <statement name="SUBMARKET">
+      <block type="controls_if" id="SUBMARKET_CHECK">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="logic_boolean" id="CHECK_BOT_ACTIVE">
+            <field name="BOOL">TRUE</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <!-- Set trade amount -->
+          <block type="tradeOptions" id="TRADE_SETUP">
+            <field name="DURATIONTYPE_LIST">t</field>
+            <field name="CURRENCY_LIST">USD</field>
+            <value name="DURATION">
+              <shadow type="math_number" id="DURATION_VAL">
+                <field name="NUM">5</field>
+              </shadow>
+            </value>
+            <value name="AMOUNT">
+              <shadow type="math_number" id="AMOUNT_SHADOW">
+                <field name="NUM">1</field>
+              </shadow>
+              <block type="variables_get" id="TRADE_STAKE_GET">
+                <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+              </block>
+            </value>
+            <value name="PREDICTION">
+              <block type="text" id="TRADE_PRED">
+                <field name="TEXT">1</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="notify" id="BOT_INACTIVE_NOTIFY">
+            <field name="NOTIFICATION_TYPE">warning</field>
+            <field name="NOTIFICATION_SOUND">silent</field>
+            <value name="MESSAGE">
+              <block type="text" id="BOT_INACTIVE_MSG">
+                <field name="TEXT">⏹️ BOT HALTED: Target profit reached!</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+
+  <!-- AFTER PURCHASE: Result Processing -->
+  <block type="after_purchase" id="D^Jz1^n=2vtZku1vBN@;" x="0" y="1140">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="controls_if" id="CHECK_WIN_LOSS">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="contract_check_result" id="CHECK_LOSS">
+            <field name="CHECK_RESULT">loss</field>
+          </block>
+        </value>
+
+        <!-- LOSS BRANCH -->
+        <statement name="DO0">
+          <!-- Increment loss streak -->
+          <block type="math_change" id="INCREMENT_LOSS_STREAK">
+            <field name="VAR" id="iF9Jj(b*T]LI4.#2]oiP" variabletype="">LOSS_STREAK</field>
+            <value name="DELTA">
+              <shadow type="math_number" id="LOSS_DELTA">
+                <field name="NUM">1</field>
+              </shadow>
+            </value>
+            <next>
+              <!-- Check if loss streak exceeds limit -->
+              <block type="controls_if" id="CHECK_STREAK_LIMIT">
+                <mutation else="1"></mutation>
+                <value name="IF0">
+                  <block type="logic_compare" id="COMPARE_STREAK">
+                    <field name="OP">GT</field>
+                    <value name="A">
+                      <block type="variables_get" id="GET_STREAK">
+                        <field name="VAR" id="iF9Jj(b*T]LI4.#2]oiP" variabletype="">LOSS_STREAK</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="variables_get" id="GET_MAX_STREAK">
+                        <field name="VAR" id="K9x#2mL@pQ!5aBcD7eRs" variabletype="">MAX_LOSS_STREAK</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <!-- Stop bot after max streak -->
+                  <block type="variables_set" id="STOP_BOT">
+                    <field name="VAR" id="zT8vN#4jH@wYxKqL2uFp" variabletype="">BOT_ACTIVE</field>
+                    <value name="VALUE">
+                      <block type="logic_boolean" id="BOT_FALSE">
+                        <field name="BOOL">FALSE</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="notify" id="MAX_LOSS_NOTIFY">
+                        <field name="NOTIFICATION_TYPE">error</field>
+                        <field name="NOTIFICATION_SOUND">announcement</field>
+                        <value name="MESSAGE">
+                          <block type="text_join" id="MAX_LOSS_MSG">
+                            <mutation items="3"></mutation>
+                            <value name="ADD0">
+                              <block type="text" id="MAX_LOSS_MSG_1">
+                                <field name="TEXT">❌ MAX LOSSES REACHED (</field>
+                              </block>
+                            </value>
+                            <value name="ADD1">
+                              <block type="variables_get" id="MAX_LOSS_STREAK_GET">
+                                <field name="VAR" id="K9x#2mL@pQ!5aBcD7eRs" variabletype="">MAX_LOSS_STREAK</field>
+                              </block>
+                            </value>
+                            <value name="ADD2">
+                              <block type="text" id="MAX_LOSS_MSG_2">
+                                <field name="TEXT"> consecutive). Bot halted.</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <!-- Martingale: increase stake -->
+                  <block type="variables_set" id="MARTINGALE_STAKE">
+                    <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic" id="MARTINGALE_CALC">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <shadow type="math_number" id="MARTINGALE_SHADOW">
+                            <field name="NUM">1</field>
+                          </shadow>
+                          <block type="variables_get" id="MARTINGALE_GET_STAKE">
+                            <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <shadow type="math_number" id="MARTINGALE_MULTIPLIER">
+                            <field name="NUM">2</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <!-- Notify loss -->
+                      <block type="notify" id="LOSS_NOTIFY">
+                        <field name="NOTIFICATION_TYPE">info</field>
+                        <field name="NOTIFICATION_SOUND">silent</field>
+                        <value name="MESSAGE">
+                          <block type="text_join" id="LOSS_MSG">
+                            <mutation items="4"></mutation>
+                            <value name="ADD0">
+                              <block type="text" id="LOSS_MSG_1">
+                                <field name="TEXT">❌ Loss #</field>
+                              </block>
+                            </value>
+                            <value name="ADD1">
+                              <block type="variables_get" id="LOSS_STREAK_GET">
+                                <field name="VAR" id="iF9Jj(b*T]LI4.#2]oiP" variabletype="">LOSS_STREAK</field>
+                              </block>
+                            </value>
+                            <value name="ADD2">
+                              <block type="text" id="LOSS_MSG_2">
+                                <field name="TEXT"> | Next stake: $</field>
+                              </block>
+                            </value>
+                            <value name="ADD3">
+                              <block type="variables_get" id="LOSS_STAKE_GET">
+                                <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </statement>
+
+        <!-- WIN BRANCH -->
+        <statement name="ELSE">
+          <!-- Reset loss streak -->
+          <block type="variables_set" id="RESET_LOSS_STREAK">
+            <field name="VAR" id="iF9Jj(b*T]LI4.#2]oiP" variabletype="">LOSS_STREAK</field>
+            <value name="VALUE">
+              <block type="math_number" id="STREAK_RESET">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <!-- Reset stake to initial -->
+              <block type="variables_set" id="RESET_STAKE">
+                <field name="VAR" id="?aieB;:d^Z/_6!4qbK|b" variabletype="">STAKE</field>
+                <value name="VALUE">
+                  <block type="variables_get" id="RESET_STAKE_GET">
+                    <field name="VAR" id="N::m,gk~Upvrbi(skiC2" variabletype="">INITIAL_STAKE</field>
+                  </block>
+                </value>
+                <next>
+                  <!-- Update session profit -->
+                  <block type="math_change" id="UPDATE_SESSION_PROFIT">
+                    <field name="VAR" id="?;Ua=WNTFcShd-9UVRE," variabletype="">SESSION_PROFIT</field>
+                    <value name="DELTA">
+                      <shadow type="math_number" id="PROFIT_DELTA">
+                        <field name="NUM">1</field>
+                      </shadow>
+                      <block type="read_details" id="WIN_PAYOUT">
+                        <field name="DETAIL_INDEX">4</field>
+                      </block>
+                    </value>
+                    <next>
+                      <!-- Calculate profit remaining -->
+                      <block type="variables_set" id="CALC_PROFIT_REMAINING">
+                        <field name="VAR" id="J)G%1Ne/$W1F_v-)0``-" variabletype="">PROFIT_REMAINING</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic" id="CALC_REMAINING">
+                            <field name="OP">SUBTRACT</field>
+                            <value name="A">
+                              <shadow type="math_number" id="REMAINING_SHADOW">
+                                <field name="NUM">1</field>
+                              </shadow>
+                              <block type="variables_get" id="CALC_TP_GET">
+                                <field name="VAR" id="IiKOh|h=lV#S5`S236)^" variabletype="">TAKE_PROFIT_LEVEL</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="REMAINING_SHADOW_2">
+                                <field name="NUM">1</field>
+                              </shadow>
+                              <block type="balance" id="CALC_BALANCE">
+                                <field name="BALANCE_TYPE">NUM</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <!-- Check if target reached -->
+                          <block type="controls_if" id="CHECK_TARGET_REACHED">
+                            <mutation else="1"></mutation>
+                            <value name="IF0">
+                              <block type="logic_compare" id="COMPARE_TARGET">
+                                <field name="OP">LTE</field>
+                                <value name="A">
+                                  <block type="variables_get" id="CHECK_REMAINING">
+                                    <field name="VAR" id="J)G%1Ne/$W1F_v-)0``-" variabletype="">PROFIT_REMAINING</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="CHECK_ZERO">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <!-- Target reached: stop bot -->
+                              <block type="variables_set" id="TARGET_REACHED_STOP">
+                                <field name="VAR" id="zT8vN#4jH@wYxKqL2uFp" variabletype="">BOT_ACTIVE</field>
+                                <value name="VALUE">
+                                  <block type="logic_boolean" id="BOT_FALSE_2">
+                                    <field name="BOOL">FALSE</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="notify" id="TARGET_REACHED_NOTIFY">
+                                    <field name="NOTIFICATION_TYPE">success</field>
+                                    <field name="NOTIFICATION_SOUND">announcement</field>
+                                    <value name="MESSAGE">
+                                      <block type="text_join" id="TARGET_REACHED_MSG">
+                                        <mutation items="4"></mutation>
+                                        <value name="ADD0">
+                                          <block type="text" id="TARGET_REACHED_MSG_1">
+                                            <field name="TEXT">🎉 TARGET REACHED! Total Win: $</field>
+                                          </block>
+                                        </value>
+                                        <value name="ADD1">
+                                          <block type="variables_get" id="TARGET_REACHED_PROFIT">
+                                            <field name="VAR" id="?;Ua=WNTFcShd-9UVRE," variabletype="">SESSION_PROFIT</field>
+                                          </block>
+                                        </value>
+                                        <value name="ADD2">
+                                          <block type="text" id="TARGET_REACHED_MSG_2">
+                                            <field name="TEXT"> | Trades: </field>
+                                          </block>
+                                        </value>
+                                        <value name="ADD3">
+                                          <block type="math_number" id="TRADES_COUNT">
+                                            <field name="NUM">0</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <statement name="ELSE">
+                              <!-- Target not reached: continue -->
+                              <block type="notify" id="WIN_CONTINUE_NOTIFY">
+                                <field name="NOTIFICATION_TYPE">success</field>
+                                <field name="NOTIFICATION_SOUND">silent</field>
+                                <value name="MESSAGE">
+                                  <block type="text_join" id="WIN_CONTINUE_MSG">
+                                    <mutation items="4"></mutation>
+                                    <value name="ADD0">
+                                      <block type="text" id="WIN_CONTINUE_MSG_1">
+                                        <field name="TEXT">✅ Win! Total: $</field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD1">
+                                      <block type="variables_get" id="WIN_CONTINUE_PROFIT">
+                                        <field name="VAR" id="?;Ua=WNTFcShd-9UVRE," variabletype="">SESSION_PROFIT</field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD2">
+                                      <block type="text" id="WIN_CONTINUE_MSG_2">
+                                        <field name="TEXT"> | Remaining: $</field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD3">
+                                      <block type="variables_get" id="WIN_REMAINING">
+                                        <field name="VAR" id="J)G%1Ne/$W1F_v-)0``-" variabletype="">PROFIT_REMAINING</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+
+        <!-- Toggle trade direction for next trade -->
+        <next>
+          <block type="controls_if" id="TOGGLE_DIRECTION">
+            <mutation else="1"></mutation>
+            <value name="IF0">
+              <block type="logic_compare" id="CHECK_DIRECTION_A">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="GET_DIRECTION">
+                    <field name="VAR" id="#660:g_f?GEQE_4o$n5g" variabletype="">TRADE_DIRECTION</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="text" id="DIRECTION_A_CHECK">
+                    <field name="TEXT">A</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set" id="SET_DIRECTION_B">
+                <field name="VAR" id="#660:g_f?GEQE_4o$n5g" variabletype="">TRADE_DIRECTION</field>
+                <value name="VALUE">
+                  <block type="text" id="DIRECTION_B">
+                    <field name="TEXT">B</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_set" id="SET_DIRECTION_A">
+                <field name="VAR" id="#660:g_f?GEQE_4o$n5g" variabletype="">TRADE_DIRECTION</field>
+                <value name="VALUE">
+                  <block type="text" id="DIRECTION_A_SET">
+                    <field name="TEXT">A</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <!-- TICK ANALYSIS: Display last digit -->
+  <block type="tick_analysis" id="XOop?i$/{Sz%:#,2TgQ_" x="0" y="2106">
+    <statement name="TICKANALYSIS_STACK">
+      <block type="notify" id="TICK_NOTIFY">
+        <field name="NOTIFICATION_TYPE">info</field>
+        <field name="NOTIFICATION_SOUND">silent</field>
+        <value name="MESSAGE">
+          <block type="text_join" id="TICK_MSG">
+            <mutation items="2"></mutation>
+            <value name="ADD0">
+              <block type="text" id="TICK_MSG_1">
+                <field name="TEXT">📊 Last Digit: </field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="last_digit" id="TICK_LAST_DIGIT"></block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <!-- BEFORE PURCHASE: Trade Execution -->
+  <block type="before_purchase" id="i-CIx.(Onm4?ihxzA}Y]" x="0" y="2207">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="controls_if" id="EXECUTE_TRADE">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="logic_compare" id="CHECK_BOT_ACTIVE_FINAL">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="variables_get" id="GET_BOT_STATUS">
+                <field name="VAR" id="zT8vN#4jH@wYxKqL2uFp" variabletype="">BOT_ACTIVE</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_boolean" id="BOT_TRUE_CHECK">
+                <field name="BOOL">TRUE</field>
+              </block>
+            </value>
+          </block>
+        </value>
+
+        <!-- Execute Trade -->
+        <statement name="DO0">
+          <block type="controls_if" id="CHECK_DIRECTION_FOR_TRADE">
+            <mutation else="1"></mutation>
+            <value name="IF0">
+              <block type="logic_compare" id="TRADE_IS_OVER">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="GET_DIRECTION_FOR_TRADE">
+                    <field name="VAR" id="#660:g_f?GEQE_4o$n5g" variabletype="">TRADE_DIRECTION</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="text" id="OVER_CHECK">
+                    <field name="TEXT">A</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="notify" id="TRADE_OVER_NOTIFY">
+                <field name="NOTIFICATION_TYPE">success</field>
+                <field name="NOTIFICATION_SOUND">announcement</field>
+                <value name="MESSAGE">
+                  <block type="text" id="TRADE_OVER_MSG">
+                    <field name="TEXT">📈 Trading OVER</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="purchase" id="BUY_OVER">
+                    <field name="PURCHASE_LIST">DIGITOVER</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="notify" id="TRADE_UNDER_NOTIFY">
+                <field name="NOTIFICATION_TYPE">success</field>
+                <field name="NOTIFICATION_SOUND">announcement</field>
+                <value name="MESSAGE">
+                  <block type="text" id="TRADE_UNDER_MSG">
+                    <field name="TEXT">📉 Trading UNDER</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="purchase" id="BUY_UNDER">
+                    <field name="PURCHASE_LIST">DIGITUNDER</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </statement>
+
+        <!-- Bot halted -->
+        <statement name="ELSE">
+          <block type="notify" id="BOT_HALTED_NOTIFY">
+            <field name="NOTIFICATION_TYPE">warning</field>
+            <field name="NOTIFICATION_SOUND">silent</field>
+            <value name="MESSAGE">
+              <block type="text" id="BOT_HALTED_MSG">
+                <field name="TEXT">⏸️ Bot is halted. No trades executed.</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
