@@ -416,7 +416,7 @@
                                   <block type="total_profit" id="%{KTBFat:;MsW4tuHbF*"></block>
                                 </value>
                                 <value name="B">
-                                  <block type="math_number" id=".)S~G5x|@J!5GO$7;rDu">
+                                  <block type="math_number" id=")S~G5x|@J!5GO$7;rDu">
                                     <field name="NUM">-50</field>
                                   </block>
                                 </value>
@@ -520,7 +520,7 @@
                         <field name="OP">OR</field>
                         <value name="A">
                           <block type="logic_compare" id="HY~]o{)({G48J)WSe?e5">
-                            <field name="OP">LT</field>
+                            <field name="OP">EQ</field>
                             <value name="A">
                               <block type="last_digit" id="St0o[#jd)9[*hDZr4Vpp"></block>
                             </value>
@@ -533,13 +533,13 @@
                         </value>
                         <value name="B">
                           <block type="logic_compare" id="CT/*[=]J24$z%1i^G!Y]">
-                            <field name="OP">LT</field>
+                            <field name="OP">EQ</field>
                             <value name="A">
                               <block type="last_digit" id="_9[2J=XN].$76k|Pmz0:"></block>
                             </value>
                             <value name="B">
                               <block type="math_number" id=")_^~wP05Pez.MdMbl)|w">
-                                <field name="NUM">5</field>
+                                <field name="NUM">4</field>
                               </block>
                             </value>
                           </block>
@@ -554,9 +554,7 @@
               <block type="logic_compare" id="5W@87^~LMM9EdQ894hk1">
                 <field name="OP">EQ</field>
                 <value name="A">
-                  <block type="variables_get" id="Z(bRbr2~O|$I=wH]}9j[">
-                    <field name="VAR" id="ready_for_01234_entry">ready_for_01234_entry</field>
-                  </block>
+                  <block type="variables_get" id="Z(bRbr2~O|$I=wH]}9j["><field name="VAR" id="ready_for_01234_entry">ready_for_01234_entry</field></block>
                 </value>
                 <value name="B">
                   <block type="logic_boolean" id="m]-},_qC069X_M|4tyKu">
@@ -597,7 +595,7 @@
                     </value>
                     <value name="B">
                       <block type="math_number" id="8j%E8oP@Lac8UWU|X_Z_">
-                        <field name="NUM">2</field>
+                        <field name="NUM">5</field>
                       </block>
                     </value>
                   </block>
@@ -882,14 +880,24 @@
               </block>
             </value>
             <next>
-              <block type="notify" id=")$8dR6W4.lF[NR.XMjUi">
-                <field name="NOTIFICATION_TYPE">warn</field>
-                <field name="NOTIFICATION_SOUND">silent</field>
-                <value name="MESSAGE">
-                  <shadow type="text" id="TkS?O3#kBv$ssCWVk^@7">
-                    <field name="TEXT">Digit sequence broken - resetting counter</field>
-                  </shadow>
+              <block type="variables_set" id="Q1]bR3#jds$L9sJ0eo5!">
+                <field name="VAR" id="ready_for_01234_entry">ready_for_01234_entry</field>
+                <value name="VALUE">
+                  <block type="logic_boolean" id="Wb0c?u#vT}h0OUYvN$0g">
+                    <field name="BOOL">FALSE</field>
+                  </block>
                 </value>
+                <next>
+                  <block type="notify" id=")$8dR6W4.lF[NR.XMjUi">
+                    <field name="NOTIFICATION_TYPE">warn</field>
+                    <field name="NOTIFICATION_SOUND">silent</field>
+                    <value name="MESSAGE">
+                      <shadow type="text" id="TkS?O3#kBv$ssCWVk^@7">
+                        <field name="TEXT">Digit sequence broken - resetting counter</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </next>
               </block>
             </next>
           </block>
