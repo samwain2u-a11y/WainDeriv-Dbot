@@ -44,97 +44,7 @@
       </block>
     </statement>
     <statement name="INITIALIZATION">
-      <block type="variables_set" id="mEy!xtES=El(x?-ckp*[">
-        <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
-        <value name="VALUE">
-          <block type="math_number" id="Z%3Kr%/K$Yg*:P|lt.h5">
-            <field name="NUM">40</field>
-          </block>
-        </value>
-        <next>
-          <block type="variables_set" id="/3IcxOMhP0f^?C52rjMF">
-            <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
-            <value name="VALUE">
-              <block type="variables_get" id="#E%`Ed=Kp0[*pa:wn`z}">
-                <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
-              </block>
-            </value>
-            <next>
-              <block type="variables_set" id="qDtkaUC]6-DFg=zQB.$h">
-                <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
-                <value name="VALUE">
-                  <block type="math_arithmetic" id="njTXh!/9vM-2%5J~vez[">
-                    <field name="OP">MULTIPLY</field>
-                    <value name="A">
-                      <shadow type="math_number" id="*jDCQuB9H!P9y06XuatE">
-                        <field name="NUM">1</field>
-                      </shadow>
-                      <block type="variables_get" id="**GMo5byHF%qqSHYaar+">
-                        <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
-                      </block>
-                    </value>
-                    <value name="B">
-                      <shadow type="math_number" id="k8|J*rH!zWWIt,1ih5Yc">
-                        <field name="NUM">0.01</field>
-                      </shadow>
-                    </value>
-                  </block>
-                </value>
-                <next>
-                  <block type="variables_set" id="=@$uzeVv3J80kb+FQDy.">
-                    <field name="VAR" id="_y{yZ1EsKxSe[:sXL4FW">Stake</field>
-                    <value name="VALUE">
-                      <block type="variables_get" id="vW(;i;^*HL_/z~5,W0yP">
-                        <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
-                      </block>
-                    </value>
-                    <next>
-                      <block type="variables_set" id="GbCUcLZ,hC+c75PW.]-^">
-                        <field name="VAR" id=":bRAT/7({CLxJU(k@71i">win</field>
-                        <value name="VALUE">
-                          <block type="logic_boolean" id="g`C/7Jk15!,Ch(XFN%#D">
-                            <field name="BOOL">TRUE</field>
-                          </block>
-                        </value>
-                        <next>
-                          <block type="variables_set" id="s`3Ca?@6EedzQk_ul01]">
-                            <field name="VAR" id="digit_01234_count">digit_01234_count</field>
-                            <value name="VALUE">
-                              <block type="math_number" id="V-%FaFGZeubd0#ID*7uN">
-                                <field name="NUM">0</field>
-                              </block>
-                            </value>
-                            <next>
-                              <block type="variables_set" id="VqYU]I;/aM[M%rj$/Q#V">
-                                <field name="VAR" id="last_digit_was_01234">last_digit_was_01234</field>
-                                <value name="VALUE">
-                                  <block type="logic_boolean" id=",fwP#Rk#B$Zv{]DS=LiR">
-                                    <field name="BOOL">FALSE</field>
-                                  </block>
-                                </value>
-                                <next>
-                                  <block type="variables_set" id="Gz@s|Lx}v8(y`+93|N|?">
-                                    <field name="VAR" id="ready_for_01234_entry">ready_for_01234_entry</field>
-                                    <value name="VALUE">
-                                      <block type="logic_boolean" id="!MdM0z!nih5n~PnVcq*~">
-                                        <field name="BOOL">FALSE</field>
-                                      </block>
-                                    </value>
-                                  </block>
-                                </next>
-                              </block>
-                            </next>
-                          </block>
-                        </next>
-                      </block>
-                    </next>
-                  </block>
-                </next>
-              </block>
-            </next>
-          </block>
-        </next>
-      </block>
+      <block type="variables_set" id="mEy!xtES=El(x?-ckp*["><field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field><value name="VALUE"><block type="math_number" id="Z%3Kr%/K$Yg*:P|lt.h5"><field name="NUM">40</field></block></value><next><block type="variables_set" id="/3IcxOMhP0f^?C52rjMF"><field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field><value name="VALUE"><block type="variables_get" id="#E%`Ed=Kp0[*pa:wn`z}"><field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field></block></value><next><block type="variables_set" id="qDtkaUC]6-DFg=zQB.$h"><field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field><value name="VALUE"><block type="math_arithmetic" id="njTXh!/9vM-2%5J~vez["><field name="OP">MULTIPLY</field><value name="A"><shadow type="math_number" id="*jDCQuB9H!P9y06XuatE"><field name="NUM">1</field></shadow><block type="variables_get" id="**GMo5byHF%qqSHYaar+"><field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field></block></value><value name="B"><shadow type="math_number" id="k8|J*rH!zWWIt,1ih5Yc"><field name="NUM">0.01</field></shadow></value></block></value><next><block type="variables_set" id="=@$uzeVv3J80kb+FQDy."><field name="VAR" id="_y{yZ1EsKxSe[:sXL4FW">Stake</field><value name="VALUE"><block type="variables_get" id="vW(;i;^*HL_/z~5,W0yP"><field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field></block></value><next><block type="variables_set" id="GbCUcLZ,hC+c75PW.]-^"><field name="VAR" id=":bRAT/7({CLxJU(k@71i">win</field><value name="VALUE"><block type="logic_boolean" id="g`C/7Jk15!,Ch(XFN%#D"><field name="BOOL">TRUE</field></block></value><next><block type="variables_set" id="s`3Ca?@6EedzQk_ul01]"><field name="VAR" id="digit_01234_count">digit_01234_count</field><value name="VALUE"><block type="math_number" id="V-%FaFGZeubd0#ID*7uN"><field name="NUM">0</field></block></value><next><block type="variables_set" id="VqYU]I;/aM[M%rj$/Q#V"><field name="VAR" id="last_digit_was_01234">last_digit_was_01234</field><value name="VALUE"><block type="logic_boolean" id=",fwP#Rk#B$Zv{]DS=LiR"><field name="BOOL">FALSE</field></block></value><next><block type="variables_set" id="Gz@s|Lx}v8(y`+93|N|?"><field name="VAR" id="ready_for_01234_entry">ready_for_01234_entry</field><value name="VALUE"><block type="logic_boolean" id="!MdM0z!nih5n~PnVcq*~"><field name="BOOL">FALSE</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block>
     </statement>
     <statement name="SUBMARKET">
       <block type="trade_definition_tradeoptions" id="qRFxCmh{$Q`F,wj%vral">
@@ -520,7 +430,7 @@
                         <field name="OP">OR</field>
                         <value name="A">
                           <block type="logic_compare" id="HY~]o{)({G48J)WSe?e5">
-                            <field name="OP">LT</field>
+                            <field name="OP">EQ</field>
                             <value name="A">
                               <block type="last_digit" id="St0o[#jd)9[*hDZr4Vpp"></block>
                             </value>
@@ -533,13 +443,13 @@
                         </value>
                         <value name="B">
                           <block type="logic_compare" id="CT/*[=]J24$z%1i^G!Y]">
-                            <field name="OP">LT</field>
+                            <field name="OP">EQ</field>
                             <value name="A">
                               <block type="last_digit" id="_9[2J=XN].$76k|Pmz0:"></block>
                             </value>
                             <value name="B">
                               <block type="math_number" id=")_^~wP05Pez.MdMbl)|w">
-                                <field name="NUM">5</field>
+                                <field name="NUM">4</field>
                               </block>
                             </value>
                           </block>
@@ -597,7 +507,7 @@
                     </value>
                     <value name="B">
                       <block type="math_number" id="8j%E8oP@Lac8UWU|X_Z_">
-                        <field name="NUM">2</field>
+                        <field name="NUM">5</field>
                       </block>
                     </value>
                   </block>
@@ -754,12 +664,12 @@
                     <field name="NOTIFICATION_SOUND">silent</field>
                     <value name="MESSAGE">
                       <shadow type="text" id="[dyOeS.,Y9c31wdlH[-_">
-                        <field name="TEXT">Entering on DIGITOVER4 - digit 0,1,2,3,4</field>
+                        <field name="TEXT">Sequence confirmed - entering DIGITOVER4 after 0,1,2,3,4 run</field>
                       </shadow>
                     </value>
                     <next>
                       <block type="purchase" id="mXZ!SN4t+oI(vaB%~r~h">
-                        <field name="PURCHASE_LIST">DIGITUNDER</field>
+                        <field name="PURCHASE_LIST">DIGITOVER4</field>
                       </block>
                     </next>
                   </block>
