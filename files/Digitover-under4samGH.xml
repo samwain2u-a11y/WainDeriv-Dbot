@@ -1,0 +1,732 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="Vk9dg%?V6MlcmL~336]o">Opening Balance</variable>
+    <variable id="@Y=47iYSIEjVk;=X/aK4">Balance</variable>
+    <variable id="_y{yZ1EsKxSe[:sXL4FW">Stake</variable>
+    <variable id="digit_under4_count">digit_under4_count</variable>
+    <variable id="digit_over4_count">digit_over4_count</variable>
+    <variable id="under4_ready">under4_ready</variable>
+    <variable id="over4_ready">over4_ready</variable>
+    <variable id="cooldown_mode">cooldown_mode</variable>
+    <variable id="entry_guard">entry_guard</variable>
+    <variable id="drawdown_guard">drawdown_guard</variable>
+    <variable id="EJ7{rK6wRimd]pu|cy7|">Risk</variable>
+    <variable id=":bRAT/7({CLxJU(k@71i">win</variable>
+    <variable id="last_digit_under4">last_digit_under4</variable>
+    <variable id="last_digit_over4">last_digit_over4</variable>
+  </variables>
+
+  <block type="trade_definition" id="qfzYDYbL055#!P5bgJVG" deletable="false" x="0" y="110">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market" id="3ij;pVXpeGToLC*4,y}5" deletable="false" movable="false">
+        <field name="MARKET_LIST">synthetic_index</field>
+        <field name="SUBMARKET_LIST">random_index</field>
+        <field name="SYMBOL_LIST">1HZ100V</field>
+        <next>
+          <block type="trade_definition_tradetype" id="3E0t:uBVlMzM[ui0Y#]x" deletable="false" movable="false">
+            <field name="TRADETYPECAT_LIST">digits</field>
+            <field name="TRADETYPE_LIST">overunder</field>
+            <next>
+              <block type="trade_definition_contracttype" id=".*KGK.Os~FthH]{5Txh5" deletable="false" movable="false">
+                <field name="TYPE_LIST">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval" id="*NeEZdVuUDWIL)jY3t4O" deletable="false" movable="false">
+                    <field name="CANDLEINTERVAL_LIST">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell" id="Y:A;0HcXEvkS2dmZ6EP1" deletable="false" movable="false">
+                        <field name="TIME_MACHINE_ENABLED">FALSE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror" id="}sAnN[q33rrN8z[:{6i@" deletable="false" movable="false">
+                            <field name="RESTARTONERROR">TRUE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="mEy!xtES=El(x?-ckp*[">
+        <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
+        <value name="VALUE">
+          <block type="math_number" id="Z%3Kr%/K$Yg*:P|lt.h5">
+            <field name="NUM">40</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="/3IcxOMhP0f^?C52rjMF">
+            <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
+            <value name="VALUE">
+              <block type="variables_get" id="#E%`Ed=Kp0[*pa:wn`z}">
+                <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="qDtkaUC]6-DFg=zQB.$h">
+                <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="njTXh!/9vM-2%5J~vez[">
+                    <field name="OP">MULTIPLY</field>
+                    <value name="A">
+                      <block type="variables_get" id="**GMo5byHF%qqSHYaar+">
+                        <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="k8|J*rH!zWWIt,1ih5Yc">
+                        <field name="NUM">0.005</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="=@$uzeVv3J80kb+FQDy.">
+                    <field name="VAR" id="_y{yZ1EsKxSe[:sXL4FW">Stake</field>
+                    <value name="VALUE">
+                      <block type="variables_get" id="vW(;i;^*HL_/z~5,W0yP">
+                        <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="GbCUcLZ,hC+c75PW.]-^">
+                        <field name="VAR" id=":bRAT/7({CLxJU(k@71i">win</field>
+                        <value name="VALUE">
+                          <block type="logic_boolean" id="g`C/7Jk15!,Ch(XFN%#D">
+                            <field name="BOOL">TRUE</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="s`3Ca?@6EedzQk_ul01]">
+                            <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="V-%FaFGZeubd0#ID*7uN">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set" id="digit_over4_count_set">
+                                <field name="VAR" id="digit_over4_count">digit_over4_count</field>
+                                <value name="VALUE">
+                                  <block type="math_number" id="over4count">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set" id="under4_ready_set">
+                                    <field name="VAR" id="under4_ready">under4_ready</field>
+                                    <value name="VALUE">
+                                      <block type="logic_boolean" id="under4_ready_bool">
+                                        <field name="BOOL">FALSE</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set" id="over4_ready_set">
+                                        <field name="VAR" id="over4_ready">over4_ready</field>
+                                        <value name="VALUE">
+                                          <block type="logic_boolean" id="over4_ready_bool">
+                                            <field name="BOOL">FALSE</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set" id="cooldown_mode_set">
+                                            <field name="VAR" id="cooldown_mode">cooldown_mode</field>
+                                            <value name="VALUE">
+                                              <block type="logic_boolean" id="cooldown_bool">
+                                                <field name="BOOL">FALSE</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set" id="entry_guard_set">
+                                                <field name="VAR" id="entry_guard">entry_guard</field>
+                                                <value name="VALUE">
+                                                  <block type="logic_boolean" id="entry_guard_bool">
+                                                    <field name="BOOL">FALSE</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set" id="drawdown_guard_set">
+                                                    <field name="VAR" id="drawdown_guard">drawdown_guard</field>
+                                                    <value name="VALUE">
+                                                      <block type="logic_boolean" id="drawdown_guard_bool">
+                                                        <field name="BOOL">FALSE</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="variables_set" id="last_digit_under4_set">
+                                                        <field name="VAR" id="last_digit_under4">last_digit_under4</field>
+                                                        <value name="VALUE">
+                                                          <block type="logic_boolean" id="last_digit_under4_bool">
+                                                            <field name="BOOL">FALSE</field>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set" id="last_digit_over4_set">
+                                                            <field name="VAR" id="last_digit_over4">last_digit_over4</field>
+                                                            <value name="VALUE">
+                                                              <block type="logic_boolean" id="last_digit_over4_bool">
+                                                                <field name="BOOL">FALSE</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions" id="qRFxCmh{$Q`F,wj%vral">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" has_first_barrier="false" has_second_barrier="false" has_prediction="true"></mutation>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <value name="DURATION">
+          <shadow type="math_number" id="Mf-TWAY(hiCwj;ZsPj@`">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="AMOUNT">
+          <shadow type="math_number" id="|e37h8G}oVh.,xU*,mSM">
+            <field name="NUM">1</field>
+          </shadow>
+          <block type="variables_get" id="M$RL-0(I(y2@|_nA!a`T">
+            <field name="VAR" id="_y{yZ1EsKxSe[:sXL4FW">Stake</field>
+          </block>
+        </value>
+        <value name="PREDICTION">
+          <shadow type="math_number" id="Kq!,}%1oc]EX:H1a_Usa">
+            <field name="NUM">4</field>
+          </shadow>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="after_purchase" id="?u8UX${Mi$nehXll2t1|" x="2139" y="110">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="variables_set" id="after_balance">
+        <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
+        <value name="VALUE">
+          <block type="math_arithmetic" id="after_balance_math">
+            <field name="OP">ADD</field>
+            <value name="A">
+              <block type="variables_get" id="opening_balance_after">
+                <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="total_profit" id="profit_after"></block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="controls_if" id="risk_check_after">
+            <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
+            <value name="IF0">
+              <block type="logic_compare" id="balance_after_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get" id="balance_after_get">
+                    <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="variables_get" id="balance_opening_after">
+                    <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set" id="risk_recovery">
+                <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="risk_recovery_math">
+                    <field name="OP">MULTIPLY</field>
+                    <value name="A">
+                      <block type="variables_get" id="opening_balance_risk">
+                        <field name="VAR" id="Vk9dg%?V6MlcmL~336]o">Opening Balance</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="risk_recovery_val">
+                        <field name="NUM">0.005</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_set" id="risk_normal">
+                <field name="VAR" id="EJ7{rK6wRimd]pu|cy7|">Risk</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="risk_normal_math">
+                    <field name="OP">MULTIPLY</field>
+                    <value name="A">
+                      <block type="variables_get" id="balance_risk_normal">
+                        <field name="VAR" id="@Y=47iYSIEjVk;=X/aK4">Balance</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="risk_normal_val">
+                        <field name="NUM">0.005</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="controls_if" id="drawdown_guard_after">
+                <value name="IF0">
+                  <block type="logic_compare" id="drawdown_compare_after">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <block type="total_profit" id="profit_drawdown"></block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="drawdown_limit">
+                        <field name="NUM">-25</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_set" id="drawdown_guard_active">
+                    <field name="VAR" id="drawdown_guard">drawdown_guard</field>
+                    <value name="VALUE">
+                      <block type="logic_boolean" id="drawdown_guard_true">
+                        <field name="BOOL">TRUE</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="before_purchase" id="ls6]d^Sxk8U/WCa75bAH" deletable="false" x="0" y="1120">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="controls_if" id="main_gate">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" elseif="2"></mutation>
+
+        <value name="IF0">
+          <block type="logic_operation" id="low_sequence_gate">
+            <field name="OP">AND</field>
+            <value name="A">
+              <block type="logic_operation" id="low_digit_cluster">
+                <field name="OP">OR</field>
+                <value name="A">
+                  <block type="logic_compare" id="digit_0">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="last_digit" id="last_digit_0"></block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="num_0">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_operation" id="low_group">
+                    <field name="OP">OR</field>
+                    <value name="A">
+                      <block type="logic_compare" id="digit_1">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="last_digit" id="last_digit_1"></block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="num_1">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_operation" id="low_group2">
+                        <field name="OP">OR</field>
+                        <value name="A">
+                          <block type="logic_compare" id="digit_2">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="last_digit" id="last_digit_2"></block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="num_2">
+                                <field name="NUM">2</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="logic_operation" id="low_group3">
+                            <field name="OP">OR</field>
+                            <value name="A">
+                              <block type="logic_compare" id="digit_3">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="last_digit" id="last_digit_3"></block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="num_3">
+                                    <field name="NUM">3</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="logic_compare" id="digit_4">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="last_digit" id="last_digit_4"></block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="num_4">
+                                    <field name="NUM">4</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_compare" id="low_ready_false">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="low_ready_get">
+                    <field name="VAR" id="under4_ready">under4_ready</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_boolean" id="low_ready_false_bool">
+                    <field name="BOOL">FALSE</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+
+        <statement name="DO0">
+          <block type="variables_set" id="low_count_add">
+            <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" id="low_count_add_math">
+                <field name="OP">ADD</field>
+                <value name="A">
+                  <block type="variables_get" id="low_count_get">
+                    <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="low_count_add_num">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="controls_if" id="low_count_ready_if">
+                <value name="IF0">
+                  <block type="logic_compare" id="low_count_ready_compare">
+                    <field name="OP">GTE</field>
+                    <value name="A">
+                      <block type="variables_get" id="low_count_ready_get">
+                        <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="low_count_ready_num">
+                        <field name="NUM">3</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_set" id="low_ready_true">
+                    <field name="VAR" id="under4_ready">under4_ready</field>
+                    <value name="VALUE">
+                      <block type="logic_boolean" id="low_ready_true_bool">
+                        <field name="BOOL">TRUE</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </statement>
+
+        <value name="IF1">
+          <block type="logic_operation" id="high_trigger_gate">
+            <field name="OP">AND</field>
+            <value name="A">
+              <block type="logic_operation" id="high_digit_cluster">
+                <field name="OP">OR</field>
+                <value name="A">
+                  <block type="logic_compare" id="digit_5">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="last_digit" id="last_digit_5"></block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="num_5">
+                        <field name="NUM">5</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_operation" id="high_group">
+                    <field name="OP">OR</field>
+                    <value name="A">
+                      <block type="logic_compare" id="digit_6">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="last_digit" id="last_digit_6"></block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="num_6">
+                            <field name="NUM">6</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_operation" id="high_group2">
+                        <field name="OP">OR</field>
+                        <value name="A">
+                          <block type="logic_compare" id="digit_7">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="last_digit" id="last_digit_7"></block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="num_7">
+                                <field name="NUM">7</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="logic_operation" id="high_group3">
+                            <field name="OP">OR</field>
+                            <value name="A">
+                              <block type="logic_compare" id="digit_8">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="last_digit" id="last_digit_8"></block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="num_8">
+                                    <field name="NUM">8</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="logic_compare" id="digit_9">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="last_digit" id="last_digit_9"></block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="num_9">
+                                    <field name="NUM">9</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_compare" id="high_ready_true_compare">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="high_ready_get">
+                    <field name="VAR" id="under4_ready">under4_ready</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_boolean" id="high_ready_true_bool">
+                    <field name="BOOL">TRUE</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+
+        <statement name="DO1">
+          <block type="variables_set" id="reset_low_counter">
+            <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+            <value name="VALUE">
+              <block type="math_number" id="reset_low_count_num">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="reset_under4_ready">
+                <field name="VAR" id="under4_ready">under4_ready</field>
+                <value name="VALUE">
+                  <block type="logic_boolean" id="reset_under4_ready_bool">
+                    <field name="BOOL">FALSE</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="cooldown_on">
+                    <field name="VAR" id="cooldown_mode">cooldown_mode</field>
+                    <value name="VALUE">
+                      <block type="logic_boolean" id="cooldown_on_bool">
+                        <field name="BOOL">TRUE</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+
+        <value name="IF2">
+          <block type="logic_operation" id="final_entry_gate">
+            <field name="OP">AND</field>
+            <value name="A">
+              <block type="logic_compare" id="under4_entry_compare">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="under4_ready_get_for_entry">
+                    <field name="VAR" id="under4_ready">under4_ready</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_boolean" id="under4_ready_for_entry_bool">
+                    <field name="BOOL">TRUE</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_operation" id="entry_guard_cluster">
+                <field name="OP">AND</field>
+                <value name="A">
+                  <block type="logic_compare" id="cooldown_check">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="variables_get" id="cooldown_mode_get">
+                        <field name="VAR" id="cooldown_mode">cooldown_mode</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_boolean" id="cooldown_mode_false">
+                        <field name="BOOL">FALSE</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_compare" id="drawdown_guard_check">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="variables_get" id="drawdown_guard_get">
+                        <field name="VAR" id="drawdown_guard">drawdown_guard</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_boolean" id="drawdown_guard_false">
+                        <field name="BOOL">FALSE</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+
+        <statement name="DO2">
+          <block type="variables_set" id="reset_after_entry">
+            <field name="VAR" id="digit_under4_count">digit_under4_count</field>
+            <value name="VALUE">
+              <block type="math_number" id="reset_after_entry_num">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="under4_ready_false_after_entry">
+                <field name="VAR" id="under4_ready">under4_ready</field>
+                <value name="VALUE">
+                  <block type="logic_boolean" id="under4_ready_false_after_bool">
+                    <field name="BOOL">FALSE</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="notify" id="entry_notify">
+                    <field name="NOTIFICATION_TYPE">success</field>
+                    <field name="NOTIFICATION_SOUND">silent</field>
+                    <value name="MESSAGE">
+                      <shadow type="text" id="entry_message_shadow">
+                        <field name="TEXT">UNDER4 institutional entry confirmed</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="purchase" id="purchase_under4">
+                        <field name="PURCHASE_LIST">DIGITUNDER</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
