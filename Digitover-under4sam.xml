@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
   <variables>
     <variable id="opening_balance">Opening Balance</variable>
@@ -44,7 +45,6 @@
         </next>
       </block>
     </statement>
-
     <statement name="INITIALIZATION">
       <block type="variables_set" id="init_opening">
         <field name="VAR" id="opening_balance">Opening Balance</field>
@@ -54,27 +54,17 @@
             <field name="VAR" id="balance">Balance</field>
             <value name="VALUE"><block type="variables_get" id="get_opening"><field name="VAR" id="opening_balance">Opening Balance</field></block></value>
             <next>
-              <block type="variables_set" id="init_risk">
-                <field name="VAR" id="risk">Risk</field>
-                <value name="VALUE"><block type="math_arithmetic" id="risk_initial"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="risk_balance"><field name="VAR" id="balance">Balance</field></block></value><value name="B"><shadow type="math_number" id="risk_percent"><field name="NUM">0.01</field></shadow></value></block></value>
+              <block type="variables_set" id="init_stake">
+                <field name="VAR" id="stake">Stake</field>
+                <value name="VALUE"><block type="math_number" id="stake_value"><field name="NUM">1</field></block></value>
                 <next>
-                  <block type="variables_set" id="init_max_stake">
-                    <field name="VAR" id="max_stake">Max Stake</field>
-                    <value name="VALUE"><block type="math_arithmetic" id="max_initial"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="max_balance"><field name="VAR" id="balance">Balance</field></block></value><value name="B"><shadow type="math_number" id="max_percent"><field name="NUM">0.03</field></shadow></value></block></value>
+                  <block type="variables_set" id="init_count">
+                    <field name="VAR" id="low_digit_count">Low Digit Count</field>
+                    <value name="VALUE"><block type="math_number" id="count_value"><field name="NUM">0</field></block></value>
                     <next>
-                      <block type="variables_set" id="init_stake"><field name="VAR" id="stake">Stake</field><value name="VALUE"><block type="variables_get" id="initial_stake"><field name="VAR" id="risk">Risk</field></block></value>
-                        <next>
-                          <block type="variables_set" id="init_count"><field name="VAR" id="low_digit_count">Low Digit Count</field><value name="VALUE"><block type="math_number" id="zero_count"><field name="NUM">0</field></block></value>
-                            <next>
-                              <block type="variables_set" id="init_ready"><field name="VAR" id="ready_for_entry">Ready for DIGITUNDER4</field><value name="VALUE"><block type="logic_boolean" id="false_ready"><field name="BOOL">FALSE</field></block></value>
-                                <next>
-                                  <block type="variables_set" id="init_losses"><field name="VAR" id="loss_streak">Loss Streak</field><value name="VALUE"><block type="math_number" id="zero_losses"><field name="NUM">0</field></block></value>
-                                  </block>
-                                </next>
-                              </block>
-                            </next>
-                          </block>
-                        </next>
+                      <block type="variables_set" id="init_losses">
+                        <field name="VAR" id="loss_streak">Loss Streak</field>
+                        <value name="VALUE"><block type="math_number" id="loss_value"><field name="NUM">0</field></block></value>
                       </block>
                     </next>
                   </block>
@@ -85,10 +75,9 @@
         </next>
       </block>
     </statement>
-
     <statement name="SUBMARKET">
       <block type="trade_definition_tradeoptions" id="trade_options">
-        <mutation xmlns="http://www.w3.org/1999/xhtml" has_first_barrier="false" has_second_barrier="false" has_prediction="true"></mutation>
+        <mutation xmlns="http://www.w3.org/1999/xhtml" has_first_barrier="false" has_second_barrier="false" has_prediction="true" />
         <field name="DURATIONTYPE_LIST">t</field>
         <value name="DURATION"><shadow type="math_number" id="duration"><field name="NUM">1</field></shadow></value>
         <value name="AMOUNT"><shadow type="math_number" id="amount"><field name="NUM">1</field></shadow><block type="variables_get" id="get_stake"><field name="VAR" id="stake">Stake</field></block></value>
@@ -97,67 +86,32 @@
     </statement>
   </block>
 
-  <block type="after_purchase" id="after_purchase" x="1900" y="110">
-    <statement name="AFTERPURCHASE_STACK">
-      <block type="variables_set" id="update_balance">
-        <field name="VAR" id="balance">Balance</field>
-        <value name="VALUE"><block type="math_arithmetic" id="balance_value"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="balance_opening"><field name="VAR" id="opening_balance">Opening Balance</field></block></value><value name="B"><block type="total_profit" id="profit_for_balance"></block></value></block></value>
-        <next>
-          <block type="variables_set" id="update_risk">
-            <field name="VAR" id="risk">Risk</field>
-            <value name="VALUE"><block type="math_arithmetic" id="risk_value"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="risk_current_balance"><field name="VAR" id="balance">Balance</field></block></value><value name="B"><shadow type="math_number" id="risk_rate"><field name="NUM">0.01</field></shadow></value></block></value>
-            <next>
-              <block type="variables_set" id="update_max">
-                <field name="VAR" id="max_stake">Max Stake</field>
-                <value name="VALUE"><block type="math_arithmetic" id="max_value"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="max_current_balance"><field name="VAR" id="balance">Balance</field></block></value><value name="B"><shadow type="math_number" id="max_rate"><field name="NUM">0.03</field></shadow></value></block></value>
-                <next>
-                  <block type="controls_if" id="result_if">
-                    <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
-                    <value name="IF0"><block type="contract_check_result" id="check_loss"><field name="CHECK_RESULT">loss</field></block></value>
-                    <statement name="DO0">
-                      <block type="variables_set" id="increment_losses"><field name="VAR" id="loss_streak">Loss Streak</field><value name="VALUE"><block type="math_arithmetic" id="loss_increment"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="get_losses"><field name="VAR" id="loss_streak">Loss Streak</field></block></value><value name="B"><shadow type="math_number" id="one_loss"><field name="NUM">1</field></shadow></value></block></value>
-                        <next><block type="variables_set" id="loss_stake"><field name="VAR" id="stake">Stake</field><value name="VALUE"><block type="math_arithmetic" id="loss_stake_value"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="loss_risk"><field name="VAR" id="risk">Risk</field></block></value><value name="B"><shadow type="math_number" id="loss_multiplier"><field name="NUM">2</field></shadow></value></block></value></block></next>
-                      </block>
-                    </statement>
-                    <statement name="ELSE">
-                      <block type="variables_set" id="reset_losses"><field name="VAR" id="loss_streak">Loss Streak</field><value name="VALUE"><block type="math_number" id="reset_loss_value"><field name="NUM">0</field></block></value>
-                        <next><block type="variables_set" id="win_stake"><field name="VAR" id="stake">Stake</field><value name="VALUE"><block type="variables_get" id="win_risk"><field name="VAR" id="risk">Risk</field></block></value></block></next>
-                      </block>
-                    </statement>
-                    <next>
-                      <block type="controls_if" id="cap_stake">
-                        <value name="IF0"><block type="logic_compare" id="stake_over_cap"><field name="OP">GT</field><value name="A"><block type="variables_get" id="stake_to_check"><field name="VAR" id="stake">Stake</field></block></value><value name="B"><block type="variables_get" id="cap_value"><field name="VAR" id="max_stake">Max Stake</field></block></value></block></value>
-                        <statement name="DO0"><block type="variables_set" id="apply_cap"><field name="VAR" id="stake">Stake</field><value name="VALUE"><block type="variables_get" id="capped_stake"><field name="VAR" id="max_stake">Max Stake</field></block></value></block></statement>
-                        <next>
-                          <block type="controls_if" id="profit_limits">
-                            <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
-                            <value name="IF0"><block type="logic_operation" id="within_limits"><field name="OP">AND</field><value name="A"><block type="logic_compare" id="profit_upper"><field name="OP">LT</field><value name="A"><block type="total_profit" id="profit_upper_value"></block></value><value name="B"><block type="math_number" id="profit_target"><field name="NUM">50</field></block></value></block><value name="B"><block type="logic_compare" id="profit_lower"><field name="OP">GT</field><value name="A"><block type="total_profit" id="profit_lower_value"></block></value><value name="B"><block type="math_number" id="loss_limit"><field name="NUM">-50</field></block></value></block></value></block>
-                            <statement name="DO0"><block type="trade_again" id="continue_trade"></block></statement>
-                            <statement name="ELSE"><block type="notify" id="stop_notice"><field name="NOTIFICATION_TYPE">warn</field><field name="NOTIFICATION_SOUND">job-done</field><value name="MESSAGE"><shadow type="text" id="stop_message"><field name="TEXT">Trading stopped: profit target or loss limit reached</field></shadow></value><next><block type="text_print" id="stop_print"><value name="TEXT"><shadow type="text" id="stop_text"><field name="TEXT">EXITING</field></shadow></value></block></next></block></statement>
-                          </block>
-                        </next>
-                      </block>
-                    </next>
-                  </block>
-                </next>
-              </block>
-            </next>
-          </block>
-        </next>
+  <block type="before_purchase" id="before_purchase" deletable="false" x="0" y="1050">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="purchase" id="purchase_under4">
+        <field name="PURCHASE_LIST">DIGITUNDER</field>
       </block>
     </statement>
   </block>
 
-  <block type="before_purchase" id="before_purchase" deletable="false" x="0" y="1050">
-    <statement name="BEFOREPURCHASE_STACK">
-      <block type="controls_if" id="signal_logic">
-        <mutation xmlns="http://www.w3.org/1999/xhtml" elseif="2"></mutation>
-        <value name="IF0"><block type="logic_operation" id="low_sequence"><field name="OP">AND</field><value name="A"><block type="logic_compare" id="is_low_digit"><field name="OP">LT</field><value name="A"><block type="last_digit" id="low_digit_value"></block><value name="B"><block type="math_number" id="five"><field name="NUM">5</field></block></value></block><value name="B"><block type="logic_compare" id="not_ready"><field name="OP">EQ</field><value name="A"><block type="variables_get" id="ready_check"><field name="VAR" id="ready_for_entry">Ready for DIGITUNDER4</field></block></value><value name="B"><block type="logic_boolean" id="false_check"><field name="BOOL">FALSE</field></block></value></block></value></block></value>
-        <statement name="DO0"><block type="variables_set" id="count_low"><field name="VAR" id="low_digit_count">Low Digit Count</field><value name="VALUE"><block type="math_arithmetic" id="count_low_value"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="count_old"><field name="VAR" id="low_digit_count">Low Digit Count</field></block></value><value name="B"><shadow type="math_number" id="count_one"><field name="NUM">1</field></shadow></value></block></value><next><block type="controls_if" id="enough_lows"><value name="IF0"><block type="logic_compare" id="count_threshold"><field name="OP">GTE</field><value name="A"><block type="variables_get" id="count_value"><field name="VAR" id="low_digit_count">Low Digit Count</field></block></value><value name="B"><block type="math_number" id="five_hits"><field name="NUM">5</field></block></value></block></value><statement name="DO0"><block type="variables_set" id="set_ready"><field name="VAR" id="ready_for_entry">Ready for DIGITUNDER4</field><value name="VALUE"><block type="logic_boolean" id="ready_true"><field name="BOOL">TRUE</field></block></value><next><block type="notify" id="ready_notice"><field name="NOTIFICATION_TYPE">info</field><field name="NOTIFICATION_SOUND">silent</field><value name="MESSAGE"><shadow type="text" id="ready_message"><field name="TEXT">Five consecutive digits below 5 - waiting for a 5-9 entry</field></shadow></value></block></next></block></statement></block></next></block></statement>
-        <value name="IF1"><block type="logic_operation" id="entry_signal"><field name="OP">AND</field><value name="A"><block type="logic_compare" id="is_high_digit"><field name="OP">GTE</field><value name="A"><block type="last_digit" id="high_digit_value"></block><value name="B"><block type="math_number" id="high_five"><field name="NUM">5</field></block></value></block><value name="B"><block type="logic_compare" id="ready_for_trade"><field name="OP">EQ</field><value name="A"><block type="variables_get" id="ready_value"><field name="VAR" id="ready_for_entry">Ready for DIGITUNDER4</field></block></value><value name="B"><block type="logic_boolean" id="ready_true_check"><field name="BOOL">TRUE</field></block></value></block></value></block></value>
-        <statement name="DO1"><block type="variables_set" id="reset_count_entry"><field name="VAR" id="low_digit_count">Low Digit Count</field><value name="VALUE"><block type="math_number" id="entry_zero"><field name="NUM">0</field></block></value><next><block type="variables_set" id="reset_ready_entry"><field name="VAR" id="ready_for_entry">Ready for DIGITUNDER4</field><value name="VALUE"><block type="logic_boolean" id="entry_false"><field name="BOOL">FALSE</field></block></value><next><block type="notify" id="entry_notice"><field name="NOTIFICATION_TYPE">success</field><field name="NOTIFICATION_SOUND">silent</field><value name="MESSAGE"><shadow type="text" id="entry_message"><field name="TEXT">Entry: DIGITUNDER 4 after five low digits</field></shadow></value><next><block type="purchase" id="buy_under"><field name="PURCHASE_LIST">DIGITUNDER</field></block></next></block></next></block></next></block></statement>
-        <value name="IF2"><block type="logic_operation" id="sequence_break"><field name="OP">AND</field><value name="A"><block type="logic_compare" id="break_digit"><field name="OP">GTE</field><value name="A"><block type="last_digit" id="break_value"></block><value name="B"><block type="math_number" id="break_five"><field name="NUM">5</field></block></value></block><value name="B"><block type="logic_compare" id="has_count"><field name="OP">GT</field><value name="A"><block type="variables_get" id="count_for_break"><field name="VAR" id="low_digit_count">Low Digit Count</field></block></value><value name="B"><block type="math_number" id="break_zero"><field name="NUM">0</field></block></value></block></value></block></value>
-        <statement name="DO2"><block type="variables_set" id="reset_count_break"><field name="VAR" id="low_digit_count">Low Digit Count</field><value name="VALUE"><block type="math_number" id="break_reset"><field name="NUM">0</field></block></value><next><block type="notify" id="break_notice"><field name="NOTIFICATION_TYPE">warn</field><field name="NOTIFICATION_SOUND">silent</field><value name="MESSAGE"><shadow type="text" id="break_message"><field name="TEXT">Low-digit sequence broken - counter reset</field></shadow></value></block></next></block></statement>
+  <block type="after_purchase" id="after_purchase" x="1900" y="110">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="controls_if" id="result_if">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" else="1" />
+        <value name="IF0"><block type="contract_check_result" id="check_loss"><field name="CHECK_RESULT">loss</field></block></value>
+        <statement name="DO0">
+          <block type="variables_set" id="increment_losses">
+            <field name="VAR" id="loss_streak">Loss Streak</field>
+            <value name="VALUE"><block type="math_arithmetic" id="loss_increment"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="loss_get"><field name="VAR" id="loss_streak">Loss Streak</field></block></value><value name="B"><block type="math_number" id="one_loss"><field name="NUM">1</field></block></value></block></value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="variables_set" id="reset_losses">
+            <field name="VAR" id="loss_streak">Loss Streak</field>
+            <value name="VALUE"><block type="math_number" id="reset_loss"><field name="NUM">0</field></block></value>
+          </block>
+        </statement>
+        <next><block type="trade_again" id="continue_trade" /></next>
       </block>
     </statement>
   </block>
