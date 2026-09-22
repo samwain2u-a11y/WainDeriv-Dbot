@@ -1,0 +1,783 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="v_FirstStake">FirstStake</variable>
+    <variable id="v_Stake">Stake</variable>
+    <variable id="v_TargetProfit">TargetProfit</variable>
+    <variable id="v_StopLoss">StopLoss</variable>
+    <variable id="v_SessionProfit">SessionProfit</variable>
+    <variable id="v_TradeCount">TradeCount</variable>
+    <variable id="v_ConsecutiveLosses">ConsecutiveLosses</variable>
+    <variable id="v_MaxTrades">MaxTrades</variable>
+    <variable id="v_MaxConsecutiveLosses">MaxConsecutiveLosses</variable>
+    <variable id="v_Cooldown">Cooldown</variable>
+    <variable id="v_BotEnabled">BotEnabled</variable>
+    <variable id="v_Regime">Regime</variable>
+    <variable id="v_ShortAvg">ShortAvg</variable>
+    <variable id="v_MidAvg">MidAvg</variable>
+    <variable id="v_LongAvg">LongAvg</variable>
+    <variable id="v_CurrentTick">CurrentTick</variable>
+    <variable id="v_RecentHigh">RecentHigh</variable>
+    <variable id="v_RecentLow">RecentLow</variable>
+    <variable id="v_MinimumPayout">MinimumPayout</variable>
+    <variable id="v_Signal">Signal</variable>
+  </variables>
+
+  <block type="trade_definition" id="safe_v3_trade" deletable="false" x="0" y="110">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market" id="market_safe_v3" deletable="false" movable="false">
+        <field name="MARKET_LIST">synthetic_index</field>
+        <field name="SUBMARKET_LIST">random_index</field>
+        <field name="SYMBOL_LIST">1HZ10V</field>
+        <next>
+          <block type="trade_definition_tradetype" id="type_safe_v3" deletable="false" movable="false">
+            <field name="TRADETYPECAT_LIST">callput</field>
+            <field name="TRADETYPE_LIST">callput</field>
+            <next>
+              <block type="trade_definition_contracttype" id="contract_safe_v3" deletable="false" movable="false">
+                <field name="TYPE_LIST">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval" id="interval_safe_v3" deletable="false" movable="false">
+                    <field name="CANDLEINTERVAL_LIST">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell" id="restart_safe_v3" deletable="false" movable="false">
+                        <field name="TIME_MACHINE_ENABLED">FALSE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror" id="restart_error_safe_v3" deletable="false" movable="false">
+                            <field name="RESTARTONERROR">FALSE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="set_FirstStake">
+        <field name="VAR" id="v_FirstStake">FirstStake</field>
+        <value name="VALUE">
+          <block type="math_number" id="num_FirstStake">
+            <field name="NUM">0.35</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="set_Stake">
+            <field name="VAR" id="v_Stake">Stake</field>
+            <value name="VALUE">
+              <block type="variables_get" id="get_FirstStake">
+                <field name="VAR" id="v_FirstStake">FirstStake</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="set_TargetProfit">
+                <field name="VAR" id="v_TargetProfit">TargetProfit</field>
+                <value name="VALUE">
+                  <block type="math_number" id="num_TargetProfit">
+                    <field name="NUM">2</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="set_StopLoss">
+                    <field name="VAR" id="v_StopLoss">StopLoss</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="num_StopLoss">
+                        <field name="NUM">-2.5</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="set_SessionProfit">
+                        <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="num_SessionProfit">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="set_TradeCount">
+                            <field name="VAR" id="v_TradeCount">TradeCount</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="num_TradeCount">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set" id="set_ConsecutiveLosses">
+                                <field name="VAR" id="v_ConsecutiveLosses">ConsecutiveLosses</field>
+                                <value name="VALUE">
+                                  <block type="math_number" id="num_ConsecutiveLosses">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set" id="set_MaxTrades">
+                                    <field name="VAR" id="v_MaxTrades">MaxTrades</field>
+                                    <value name="VALUE">
+                                      <block type="math_number" id="num_MaxTrades">
+                                        <field name="NUM">8</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set" id="set_MaxConsecutiveLosses">
+                                        <field name="VAR" id="v_MaxConsecutiveLosses">MaxConsecutiveLosses</field>
+                                        <value name="VALUE">
+                                          <block type="math_number" id="num_MaxConsecutiveLosses">
+                                            <field name="NUM">3</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set" id="set_Cooldown">
+                                            <field name="VAR" id="v_Cooldown">Cooldown</field>
+                                            <value name="VALUE">
+                                              <block type="math_number" id="num_Cooldown">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set" id="set_BotEnabled">
+                                                <field name="VAR" id="v_BotEnabled">BotEnabled</field>
+                                                <value name="VALUE">
+                                                  <block type="logic_boolean" id="bool_BotEnabled">
+                                                    <field name="BOOL">TRUE</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set" id="set_MinimumPayout">
+                                                    <field name="VAR" id="v_MinimumPayout">MinimumPayout</field>
+                                                    <value name="VALUE">
+                                                      <block type="math_number" id="num_MinimumPayout">
+                                                        <field name="NUM">75</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="variables_set" id="set_Regime">
+                                                        <field name="VAR" id="v_Regime">Regime</field>
+                                                        <value name="VALUE">
+                                                          <block type="text" id="text_Regime">
+                                                            <field name="TEXT">RANGE</field>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set" id="set_Signal">
+                                                            <field name="VAR" id="v_Signal">Signal</field>
+                                                            <value name="VALUE">
+                                                              <block type="text" id="text_Signal">
+                                                                <field name="TEXT">NONE</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions" id="tradeoptions_safe_v3">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" has_first_barrier="false" has_second_barrier="false" has_prediction="false"></mutation>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <value name="DURATION">
+          <block type="math_number" id="num_Duration">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+        <value name="AMOUNT">
+          <block type="variables_get" id="amount_Stake">
+            <field name="VAR" id="v_Stake">Stake</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="tick_analysis" id="tick_analysis_safe_v3" x="0" y="820">
+    <statement name="TICKANALYSIS_STACK">
+      <block type="variables_set" id="set_CurrentTick">
+        <field name="VAR" id="v_CurrentTick">CurrentTick</field>
+        <value name="VALUE">
+          <block type="tick" id="tick_CurrentTick"></block>
+        </value>
+        <next>
+          <block type="variables_set" id="set_RecentHigh">
+            <field name="VAR" id="v_RecentHigh">RecentHigh</field>
+            <value name="VALUE">
+              <block type="math_on_list" id="max_RecentHigh">
+                <field name="OP">MAX</field>
+                <value name="LIST">
+                  <block type="ticks" id="ticks_RecentHigh"></block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="set_RecentLow">
+                <field name="VAR" id="v_RecentLow">RecentLow</field>
+                <value name="VALUE">
+                  <block type="math_on_list" id="min_RecentLow">
+                    <field name="OP">MIN</field>
+                    <value name="LIST">
+                      <block type="ticks" id="ticks_RecentLow"></block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="set_ShortAvg">
+                    <field name="VAR" id="v_ShortAvg">ShortAvg</field>
+                    <value name="VALUE">
+                      <block type="math_on_list" id="avg_ShortAvg">
+                        <field name="OP">AVERAGE</field>
+                        <value name="LIST">
+                          <block type="lists_getSublist" id="sublist_ShortAvg">
+                            <mutation xmlns="http://www.w3.org/1999/xhtml" at1="true" at2="false"></mutation>
+                            <field name="WHERE1">FROM_END</field>
+                            <field name="WHERE2">LAST</field>
+                            <value name="LIST">
+                              <block type="ticks" id="ticks_ShortAvg"></block>
+                            </value>
+                            <value name="AT1">
+                              <block type="math_number" id="num_5">
+                                <field name="NUM">5</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="set_MidAvg">
+                        <field name="VAR" id="v_MidAvg">MidAvg</field>
+                        <value name="VALUE">
+                          <block type="math_on_list" id="avg_MidAvg">
+                            <field name="OP">AVERAGE</field>
+                            <value name="LIST">
+                              <block type="lists_getSublist" id="sublist_MidAvg">
+                                <mutation xmlns="http://www.w3.org/1999/xhtml" at1="true" at2="false"></mutation>
+                                <field name="WHERE1">FROM_END</field>
+                                <field name="WHERE2">LAST</field>
+                                <value name="LIST">
+                                  <block type="ticks" id="ticks_MidAvg"></block>
+                                </value>
+                                <value name="AT1">
+                                  <block type="math_number" id="num_13">
+                                    <field name="NUM">13</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="set_LongAvg">
+                            <field name="VAR" id="v_LongAvg">LongAvg</field>
+                            <value name="VALUE">
+                              <block type="math_on_list" id="avg_LongAvg">
+                                <field name="OP">AVERAGE</field>
+                                <value name="LIST">
+                                  <block type="lists_getSublist" id="sublist_LongAvg">
+                                    <mutation xmlns="http://www.w3.org/1999/xhtml" at1="true" at2="false"></mutation>
+                                    <field name="WHERE1">FROM_END</field>
+                                    <field name="WHERE2">LAST</field>
+                                    <value name="LIST">
+                                      <block type="ticks" id="ticks_LongAvg"></block>
+                                    </value>
+                                    <value name="AT1">
+                                      <block type="math_number" id="num_21">
+                                        <field name="NUM">21</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_if" id="if_Uptrend">
+                                <value name="IF0">
+                                  <block type="logic_operation" id="and_Uptrend">
+                                    <field name="OP">AND</field>
+                                    <value name="A">
+                                      <block type="logic_compare" id="gt_ShortMid">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <block type="variables_get" id="get_ShortAvg1">
+                                            <field name="VAR" id="v_ShortAvg">ShortAvg</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="variables_get" id="get_MidAvg1">
+                                            <field name="VAR" id="v_MidAvg">MidAvg</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="logic_compare" id="gt_MidLong">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <block type="variables_get" id="get_MidAvg2">
+                                            <field name="VAR" id="v_MidAvg">MidAvg</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="variables_get" id="get_LongAvg1">
+                                            <field name="VAR" id="v_LongAvg">LongAvg</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="variables_set" id="set_Regime_Uptrend">
+                                    <field name="VAR" id="v_Regime">Regime</field>
+                                    <value name="VALUE">
+                                      <block type="text" id="text_Uptrend">
+                                        <field name="TEXT">UPTREND</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_if" id="if_Downtrend">
+                                    <value name="IF0">
+                                      <block type="logic_operation" id="and_Downtrend">
+                                        <field name="OP">AND</field>
+                                        <value name="A">
+                                          <block type="logic_compare" id="lt_ShortMid">
+                                            <field name="OP">LT</field>
+                                            <value name="A">
+                                              <block type="variables_get" id="get_ShortAvg2">
+                                                <field name="VAR" id="v_ShortAvg">ShortAvg</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="variables_get" id="get_MidAvg3">
+                                                <field name="VAR" id="v_MidAvg">MidAvg</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="logic_compare" id="lt_MidLong">
+                                            <field name="OP">LT</field>
+                                            <value name="A">
+                                              <block type="variables_get" id="get_MidAvg4">
+                                                <field name="VAR" id="v_MidAvg">MidAvg</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="variables_get" id="get_LongAvg2">
+                                                <field name="VAR" id="v_LongAvg">LongAvg</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO0">
+                                      <block type="variables_set" id="set_Regime_Downtrend">
+                                        <field name="VAR" id="v_Regime">Regime</field>
+                                        <value name="VALUE">
+                                          <block type="text" id="text_Downtrend">
+                                            <field name="TEXT">DOWNTREND</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="controls_if" id="if_Regime_Default">
+                                        <value name="IF0">
+                                          <block type="logic_compare" id="eq_Regime_None">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <block type="variables_get" id="get_Regime1">
+                                                <field name="VAR" id="v_Regime">Regime</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="text" id="text_EmptyRegime">
+                                                <field name="TEXT"></field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO0">
+                                          <block type="variables_set" id="set_Regime_Range">
+                                            <field name="VAR" id="v_Regime">Regime</field>
+                                            <value name="VALUE">
+                                              <block type="text" id="text_Range">
+                                                <field name="TEXT">RANGE</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="before_purchase" id="before_purchase_safe_v3" x="0" y="1140">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="controls_if" id="if_BotEnabled">
+        <value name="IF0">
+          <block type="variables_get" id="get_BotEnabled">
+            <field name="VAR" id="v_BotEnabled">BotEnabled</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="controls_if" id="if_trade_limits_ok">
+            <value name="IF0">
+              <block type="logic_operation" id="and_trade_limits">
+                <field name="OP">AND</field>
+                <value name="A">
+                  <block type="logic_compare" id="lt_TradeCount_MaxTrades">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_TradeCount">
+                        <field name="VAR" id="v_TradeCount">TradeCount</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="variables_get" id="get_MaxTrades">
+                        <field name="VAR" id="v_MaxTrades">MaxTrades</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_operation" id="and_profit_limits">
+                    <field name="OP">AND</field>
+                    <value name="A">
+                      <block type="logic_compare" id="gt_SessionProfit_StopLoss">
+                        <field name="OP">GT</field>
+                        <value name="A">
+                          <block type="variables_get" id="get_SessionProfit1">
+                            <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get" id="get_StopLoss1">
+                            <field name="VAR" id="v_StopLoss">StopLoss</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_compare" id="lt_SessionProfit_TargetProfit">
+                        <field name="OP">LT</field>
+                        <value name="A">
+                          <block type="variables_get" id="get_SessionProfit2">
+                            <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get" id="get_TargetProfit1">
+                            <field name="VAR" id="v_TargetProfit">TargetProfit</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="controls_if" id="if_ConsecutiveLosses_OK">
+                <value name="IF0">
+                  <block type="logic_compare" id="lt_ConsecutiveLosses_Max">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_ConsecutiveLosses1">
+                        <field name="VAR" id="v_ConsecutiveLosses">ConsecutiveLosses</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="variables_get" id="get_MaxConsecutiveLosses1">
+                        <field name="VAR" id="v_MaxConsecutiveLosses">MaxConsecutiveLosses</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="controls_if" id="if_Cooldown_Zero">
+                    <value name="IF0">
+                      <block type="logic_compare" id="eq_Cooldown_Zero">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_get" id="get_Cooldown1">
+                            <field name="VAR" id="v_Cooldown">Cooldown</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="num_zero_cooldown">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="controls_if" id="if_Uptrend_signal">
+                        <value name="IF0">
+                          <block type="logic_compare" id="eq_Regime_Uptrend">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="variables_get" id="get_Regime2">
+                                <field name="VAR" id="v_Regime">Regime</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="text" id="text_Uptrend_buy">
+                                <field name="TEXT">UPTREND</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="purchase" id="purchase_CALL">
+                            <field name="PURCHASE_LIST">CALL</field>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if" id="if_Downtrend_signal">
+                            <value name="IF0">
+                              <block type="logic_compare" id="eq_Regime_Downtrend">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="variables_get" id="get_Regime3">
+                                    <field name="VAR" id="v_Regime">Regime</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="text" id="text_Downtrend_sell">
+                                    <field name="TEXT">DOWNTREND</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="purchase" id="purchase_PUT">
+                                <field name="PURCHASE_LIST">PUT</field>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+
+  <block type="after_purchase" id="after_purchase_safe_v3" x="1300" y="110">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="controls_if" id="if_result_win">
+        <value name="IF0">
+          <block type="contract_check_result" id="check_win_result">
+            <field name="CHECK_RESULT">win</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="variables_set" id="set_ConsecutiveLosses_reset">
+            <field name="VAR" id="v_ConsecutiveLosses">ConsecutiveLosses</field>
+            <value name="VALUE">
+              <block type="math_number" id="num_zero_reset">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="set_SessionProfit_win">
+                <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="add_detail_profit_win">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_SessionProfit3">
+                        <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="read_details" id="read_detail_profit_win">
+                        <field name="DETAIL_INDEX">4</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="controls_if" id="if_result_loss">
+            <value name="IF0">
+              <block type="contract_check_result" id="check_loss_result">
+                <field name="CHECK_RESULT">loss</field>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="math_change" id="change_ConsecutiveLosses">
+                <field name="VAR" id="v_ConsecutiveLosses">ConsecutiveLosses</field>
+                <value name="DELTA">
+                  <shadow type="math_number" id="delta_1">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set" id="set_SessionProfit_loss">
+                    <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic" id="add_detail_profit_loss">
+                        <field name="OP">ADD</field>
+                        <value name="A">
+                          <block type="variables_get" id="get_SessionProfit4">
+                            <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="read_details" id="read_detail_profit_loss">
+                            <field name="DETAIL_INDEX">4</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="variables_set" id="set_TradeCount_after">
+                <field name="VAR" id="v_TradeCount">TradeCount</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="add_TradeCount_after">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <block type="variables_get" id="get_TradeCount_after">
+                        <field name="VAR" id="v_TradeCount">TradeCount</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="num_TradeCount_after">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="set_Cooldown_after_trade">
+                    <field name="VAR" id="v_Cooldown">Cooldown</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="num_Cooldown_after">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_if" id="if_stop_profit_reached">
+                        <value name="IF0">
+                          <block type="logic_compare" id="gte_SessionProfit_TargetProfit">
+                            <field name="OP">GTE</field>
+                            <value name="A">
+                              <block type="variables_get" id="get_SessionProfit5">
+                                <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="variables_get" id="get_TargetProfit2">
+                                <field name="VAR" id="v_TargetProfit">TargetProfit</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set" id="set_BotEnabled_false_profit">
+                            <field name="VAR" id="v_BotEnabled">BotEnabled</field>
+                            <value name="VALUE">
+                              <block type="logic_boolean" id="bool_false_profit">
+                                <field name="BOOL">FALSE</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if" id="if_stop_loss_reached">
+                            <value name="IF0">
+                              <block type="logic_compare" id="lte_SessionProfit_StopLoss">
+                                <field name="OP">LTE</field>
+                                <value name="A">
+                                  <block type="variables_get" id="get_SessionProfit6">
+                                    <field name="VAR" id="v_SessionProfit">SessionProfit</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="variables_get" id="get_StopLoss2">
+                                    <field name="VAR" id="v_StopLoss">StopLoss</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set" id="set_BotEnabled_false_loss">
+                                <field name="VAR" id="v_BotEnabled">BotEnabled</field>
+                                <value name="VALUE">
+                                  <block type="logic_boolean" id="bool_false_loss">
+                                    <field name="BOOL">FALSE</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
